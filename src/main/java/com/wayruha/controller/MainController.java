@@ -43,6 +43,7 @@ public class MainController implements Initializable {
     MainApp mainApp;
     Random rand = new Random();
     private int selectedRow;
+    private SimpleIntegerProperty selectedRowProperty=new SimpleIntegerProperty();
     private ProductNote selectedNote;
 
     ArrayList<ConfigFile> filesList = new ArrayList<ConfigFile>();
@@ -55,12 +56,10 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        BooleanBinding bindingPrevButt=new BooleanBinding() { { bind(priceLvlList); }
-            @Override protected boolean computeValue() { return priceLvlList.get(selectedRow).get()<1; }
-        }, bindingNextButt=new BooleanBinding() { { bind(priceLvlList); }
-            @Override protected boolean computeValue() {
-                return priceLvlList.get(selectedRow).get()>filesList.size()-2;
-            }
+        BooleanBinding bindingPrevButt=new BooleanBinding() { { bind(priceLvlList);bind(selectedRowProperty); }
+            @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()<1; }
+        }, bindingNextButt=new BooleanBinding() { { bind(priceLvlList); bind(selectedRowProperty); }
+            @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()>filesList.size()-2; }
         };
 
         mainApp = new MainApp();
@@ -125,6 +124,7 @@ public class MainController implements Initializable {
                                 if (getItem().equals(lowestInRow(getIndex(), priceLvlList.get(getIndex()).get()).getPrice()))
                                     setTextFill(Color.RED);
                                 else setTextFill(Color.BLACK);
+                                if (getItem().equals(lowestInRow(getIndex(),0).getPrice())) setUnderline(true);
                                 setText(item.toString());
                             }
                         }
@@ -168,7 +168,6 @@ public class MainController implements Initializable {
 
             }
         });
-
         table.getColumns().addAll(differenceCol);
         Logger.setMainController(this);
     }
@@ -184,9 +183,9 @@ public class MainController implements Initializable {
         try
         {
             selectedRow=table.getSelectionModel().getSelectedIndex();
+            selectedRowProperty.set(selectedRow);
             //int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();
-            selectedNote=(ProductNote)table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
-            System.out.println(selectedNote);
+            selectedNote=table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
             Logger.write(selectedNote);
         }  catch (Exception e){System.out.println("Error:"+e.getMessage());}
 
