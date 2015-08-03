@@ -17,12 +17,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.*;
+
+import static java.lang.System.out;
 
 
 public class MainController implements Initializable {
@@ -36,12 +39,14 @@ public class MainController implements Initializable {
     @FXML
     Button addButt, prevButt, nextButt;
     @FXML
+    ImageView prevValueImg,nextValueImg;
+    @FXML
     public  TextArea logArea;
+
 
     private String newQuery;
 
     MainApp mainApp;
-    Random rand = new Random();
     private int selectedRow;
     private SimpleIntegerProperty selectedRowProperty=new SimpleIntegerProperty();
     private ProductNote selectedNote;
@@ -62,15 +67,15 @@ public class MainController implements Initializable {
             @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()>filesList.size()-2; }
         };
 
-        mainApp = new MainApp();
+
+        prevValueImg.setId("patternImg");
 
         //filesList.add(new ConfigFile("TOVAR"));
         filesList.add(new ConfigFile("SKS"));
         filesList.add(new ConfigFile("Atlant"));
         filesList.add(new ConfigFile("ТехноСвіт"));
 
-        for(int i=0;i<filesList.size();i++)
-            priceLvlList.add(new SimpleIntegerProperty(0));
+        priceLvlList.add(new SimpleIntegerProperty(0));
 
 
 
@@ -78,21 +83,9 @@ public class MainController implements Initializable {
         nextButt.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedCells()).or(bindingNextButt));
         table.getSelectionModel().setCellSelectionEnabled(true);
 
-        for (int i = 0; i < 3; i++) {
-            ObservableList<ProductNote> row = FXCollections.observableArrayList();
-            row.add(new ProductNote(rand.nextInt(100)));
-            row.add(new ProductNote(rand.nextInt(100)));
-            row.add(new ProductNote(55));
-            dataList.add(row);
-
-        }
-
-
         table.setItems(dataList);
         for (ObservableList<ProductNote> obsList:dataList)
             addSortedCopyOfARow(obsList,sortedList);
-
-
 
         TableColumn queryCol=new TableColumn("Шуканий товар");
         queryCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, ObservableValue<String>>() {
@@ -121,11 +114,13 @@ public class MainController implements Initializable {
                         protected void updateItem(Object item, boolean empty) {
                             super.updateItem(item, empty);
                             if (item != null) {
-                                if (getItem().equals(lowestInRow(getIndex(), priceLvlList.get(getIndex()).get()).getPrice()))
-                                    setTextFill(Color.RED);
-                                else setTextFill(Color.BLACK);
-                                if (getItem().equals(lowestInRow(getIndex(),0).getPrice())) setUnderline(true);
-                                setText(item.toString());
+                                try {
+                                    if (getItem().equals(lowestInRow(getIndex(), priceLvlList.get(getIndex()).get()).getPrice()))
+                                        setTextFill(Color.RED);
+                                    else setTextFill(Color.BLACK);
+                                    if (getItem().equals(lowestInRow(getIndex(), 0).getPrice())) setUnderline(true);
+                                    setText(item.toString());
+                                } catch (Exception e){ out.println(e);}
                             }
                         }
                     };
@@ -169,13 +164,15 @@ public class MainController implements Initializable {
             }
         });
         table.getColumns().addAll(differenceCol);
+        TopController.setMainController(this);
         Logger.setMainController(this);
+
     }
 
     @FXML
     public void handleAddButt() {
 
-        System.out.println("ADD Button clicked");
+        out.println("ADD Button clicked");
     }
 
     @FXML
@@ -187,7 +184,12 @@ public class MainController implements Initializable {
             //int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();
             selectedNote=table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
             Logger.write(selectedNote);
-        }  catch (Exception e){System.out.println("Error:"+e.getMessage());}
+        }  catch (Exception e)
+        {
+            out.println("Error:" + e.getMessage());
+            selectedRow = 0;
+            selectedRowProperty.set(selectedRow);
+        }
 
     }
     @FXML
@@ -214,14 +216,10 @@ public class MainController implements Initializable {
         return sortedList.get(rowIndex).get(getPos);
     }
 
-    public void addQuery(String query){
-       this.newQuery=query;
-        doSearch(query);
-
-    }
-
-    public void doSearch(String query){//TODO на основі шаблонів і запросу робимо пошук. Вертати має ліст ПродактНодів
-        //ПОШУК РОБИТЬ КЛАС ФАЙНДЕР
+    public void addRowInTable(ObservableList<ProductNote> row){
+        if(!table.getItems().isEmpty())priceLvlList.add(new SimpleIntegerProperty(0));
+        dataList.add(row);
+        addSortedCopyOfARow(row,sortedList);
 
     }
     public void setNewQuery(String newQuery) {
@@ -232,7 +230,7 @@ public class MainController implements Initializable {
         return newQuery;
     }
 
-    public void addSortedCopyOfARow(ObservableList row, ArrayList destList){
+    public  void addSortedCopyOfARow(ObservableList row, ArrayList destList){
         ArrayList list=new ArrayList<>(row);
         // Collections.copy(list,obsList);
         Collections.sort(list,(Comparator) (o1, o2) -> {

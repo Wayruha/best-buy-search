@@ -36,7 +36,8 @@ public class MainApp extends Application {
 
         Scene scene=new Scene(root);
         scene.getStylesheets().add(getClass().getClassLoader().getResource("styles/LightTheme.css").toExternalForm());
-        stage.setTitle("JavaFX and Maven");
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("styles/MyStyle.css").toExternalForm());
+        stage.setTitle("Best buy search");
 
         stage.setScene(scene);
         stage.show();

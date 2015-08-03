@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.99980000000505" prefWidth="1052.0000999999975" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.TopController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" prefHeight="69.99980000000505" prefWidth="1052.0000999999975" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.TopController">
   <children>
     <Label layoutX="44.0" layoutY="14.0" />
     <FlowPane layoutY="-5.0" minHeight="70.0" prefHeight="70.0" prefWidth="1048.0" style="  -fx-border-color: -fx-text-box-border;   -fx-border-width: 2;">
@@ -33,7 +33,7 @@
         </MenuBar>
         <HBox prefHeight="55.0" prefWidth="1048.0">
           <children>
-            <ImageView fx:id="addImg" fitHeight="46.0" fitWidth="61.33333333333333" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="addImg" fitHeight="46.0" fitWidth="61.33333333333333" onMouseClicked="#handleAddPattern" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@images/addPattern.png" preserveRatio="false" smooth="false" />
               </image>

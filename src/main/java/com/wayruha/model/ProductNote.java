@@ -43,15 +43,19 @@ public class ProductNote{
 
 
     public ProductNote(){}
-    public ProductNote(double price){
+    public ProductNote(double price,String queryString){
         this.price=price;
+        this.queryString=queryString;
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null){
-            ProductNote newNote=(ProductNote)obj;
-            return price==newNote.getPrice();
+            ProductNote that = (ProductNote) obj;
+            if (!queryString.equals(that.queryString)) return false;
+            if (Double.compare(that.price, price) != 0) return false;
+            return price==that.getPrice();
+
         }   else
             return this==null;
 
