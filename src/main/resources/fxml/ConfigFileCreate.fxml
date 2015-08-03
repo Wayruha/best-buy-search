@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.wayruha.validateFxmlInput.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.ConfigFileCreateController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="423.0" xmlns:fx="http://javafx.com/fxml">
   <children>
     <GridPane layoutX="34.0" layoutY="65.0" prefHeight="229.0" prefWidth="355.0">
       <children>
@@ -57,5 +58,6 @@
     </GridPane>
     <Label layoutX="116.0" layoutY="13.0" prefHeight="28.0" prefWidth="190.0" text="Створення нового шаблону" />
     <Button fx:id="saveButt" layoutX="296.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleSaveButt" prefHeight="28.0" prefWidth="73.0" text="Зберегти" />
+    <Label fx:id="errorLabel" layoutX="34.0" layoutY="320.0" style="-fx-font-color:red;" text="Error label" />
   </children>
 </AnchorPane>

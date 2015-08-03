@@ -19,12 +19,12 @@
             <TextArea fx:id="logArea" editable="false" prefHeight="70.0" prefWidth="806.0" wrapText="true" />
             <VBox prefHeight="200.0" prefWidth="100.0">
               <children>
-                <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="prevValue" fx:id="prevValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                     <Image url="@images/up.png" preserveRatio="false" smooth="false" />
                   </image>
                 </ImageView>
-                <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="nextValue" fx:id="nextValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                     <Image url="@images/down.png" preserveRatio="false" smooth="false" />
                   </image>

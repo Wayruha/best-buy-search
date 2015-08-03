@@ -35,7 +35,7 @@
           <children>
             <ImageView fx:id="addImg" fitHeight="46.0" fitWidth="61.33333333333333" onMouseClicked="#handleAddPattern" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@images/addPattern.png" preserveRatio="false" smooth="false" />
+                <Image url="/images/addPattern.png" preserveRatio="false" smooth="false" />
               </image>
             </ImageView>
             <Label text="Введіть шуканий товар">

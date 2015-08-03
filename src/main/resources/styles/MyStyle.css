@@ -1,0 +1,19 @@
+
+#patternLabel{
+    -fx-padding: 0 90 0 20;
+    -fx-text-fill: #1d1d1d;
+
+}
+
+#patternHBox{
+    -fx-background-color: #a9d0cf;
+    -fx-min-height: 50px;
+}
+#patternHBox:hover{
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 1;
+}
+#errorField{
+    -fx-border-color: red;
+    -fx-border-width: 1;
+}
