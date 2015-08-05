@@ -1,5 +1,6 @@
 package com.wayruha.customForms;
 
+import com.wayruha.model.ConfigFile;
 import javafx.geometry.Insets;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -14,11 +15,13 @@ public class PatternGroupLayout {
     public PatternGroupLayout(String name){
         this.patternName=name;
     }
+    public PatternGroupLayout(ConfigFile file){
+        this.patternName=file.getName();
+    }
 
     public HBox createLayout(){
         hBox=new HBox();
         hBox.setId("patternHBox");
-
 
         Label label=new Label(patternName);
         label.setContentDisplay(ContentDisplay.CENTER);
