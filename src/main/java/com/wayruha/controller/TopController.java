@@ -52,7 +52,6 @@ public class TopController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setController(fileCreateController);
         AnchorPane root = null;
-
         try {
             root = loader.load();
         } catch (IOException e) {

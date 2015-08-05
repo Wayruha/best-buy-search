@@ -1,6 +1,8 @@
 package com.wayruha.controller;
 
 import com.wayruha.model.ConfigFile;
+import com.wayruha.util.ErrorWindow;
+import com.wayruha.util.XmlParser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -41,26 +43,32 @@ public class ConfigFileCreateController implements Initializable {
     @FXML
     public void handleSaveButt(){
         if(!validateFields()) return;
-        ConfigFile configFile=new ConfigFile(name.getText().trim(),filePath.getText().trim(),Integer.valueOf(priceCol.getText()),Integer.valueOf(modelCol.getText()),Integer.valueOf(manufacturerCol.getText()), getAppendCol(), checkAppend.isSelected());
-        //TODO запис класу в XML
-        patternBoxController.reload();
+        ConfigFile configFile=new ConfigFile(name.getText().trim(),filePath.getText().trim(),Integer.valueOf(priceCol.getText()),Integer.valueOf(modelCol.getText()),Integer.valueOf(manufacturerCol.getText()), getAppendCol());
+        try
+        {
+            XmlParser.writeAnXml(configFile);
+            patternBoxController.reload();
+        } catch (Exception e){
+            new ErrorWindow();
+        }
         stage.close();
+
 
     }
 
   public int getAppendCol(){
-      return checkAppend.isSelected()?Integer.valueOf(appendCol.getText().trim()):0;
+      return checkAppend.isSelected()?Integer.valueOf(appendCol.getText().trim()):-1;
   }
 
     public boolean validateFields() {
         boolean flag=true;
-        if(name.getText().trim().isEmpty()) {name.setId("errorField");flag=false;}
-        if(filePath.getText().isEmpty())    {filePath.setId("errorField");flag=false;}
-        if(priceCol.getText().isEmpty())    {priceCol.setId("errorField"); flag=false;}
-        if(modelCol.getText().isEmpty())    {modelCol.setId("errorField"); flag=false;}
-        if(checkAppend.isSelected()) if(appendCol.getText().isEmpty()) {appendCol.setId("errorField");flag=false;}
+        if(name.getText().trim().isEmpty() | !Character.isLetter(name.getText().trim().toCharArray()[0])) {name.setId("errorField");flag=false;}else name.setId("");
+        if(filePath.getText().isEmpty())    {filePath.setId("errorField");flag=false;} else filePath.setId("");
+        if(priceCol.getText().isEmpty())    {priceCol.setId("errorField"); flag=false;} else priceCol.setId("");
+        if(modelCol.getText().isEmpty())    {modelCol.setId("errorField"); flag=false;}  else modelCol.setId("");
+        if(checkAppend.isSelected()) if(appendCol.getText().isEmpty()) {appendCol.setId("errorField");flag=false;} else checkAppend.setId("");
         if(!flag) {
-            errorLabel.setText("Невірно заповнено поле");
+            errorLabel.setText("Невірно заповнено поля");
             errorLabel.setVisible(true);
         }
         return flag;

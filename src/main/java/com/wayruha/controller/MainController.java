@@ -4,6 +4,7 @@ import com.wayruha.MainApp;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.model.ProductNote;
 import com.wayruha.util.Logger;
+import com.wayruha.util.XmlParser;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -23,7 +24,10 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ResourceBundle;
 
 import static java.lang.System.out;
 
@@ -51,7 +55,7 @@ public class MainController implements Initializable {
     private SimpleIntegerProperty selectedRowProperty=new SimpleIntegerProperty();
     private ProductNote selectedNote;
 
-    ArrayList<ConfigFile> filesList = new ArrayList<ConfigFile>();
+    ArrayList<ConfigFile> filesList;
     ObservableList<ObservableList<ProductNote>> dataList = FXCollections.observableArrayList();
     SimpleIntegerProperty indexProp = new SimpleIntegerProperty(1);
     ObservableList<SimpleIntegerProperty> priceLvlList = FXCollections.observableArrayList();
@@ -61,23 +65,19 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("mainCtrlInitialize");
+        loadColumns();
         BooleanBinding bindingPrevButt=new BooleanBinding() { { bind(priceLvlList);bind(selectedRowProperty); }
             @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()<1; }
         }, bindingNextButt=new BooleanBinding() { { bind(priceLvlList); bind(selectedRowProperty); }
             @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()>filesList.size()-2; }
         };
+        PatternBoxController.setMainController(this);
+        TopController.setMainController(this);
 
-
-        prevValueImg.setId("patternImg");
-
-        //filesList.add(new ConfigFile("TOVAR"));
-        filesList.add(new ConfigFile("SKS"));
-        filesList.add(new ConfigFile("Atlant"));
-        filesList.add(new ConfigFile("ТехноСвіт"));
+        Logger.setMainController(this);
 
         priceLvlList.add(new SimpleIntegerProperty(0));
-
-
 
         prevButt.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedCells()).or(bindingPrevButt));      //TODO! походу звичайні змінні не підуть.яхз(
         nextButt.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedCells()).or(bindingNextButt));
@@ -87,16 +87,77 @@ public class MainController implements Initializable {
         for (ObservableList<ProductNote> obsList:dataList)
             addSortedCopyOfARow(obsList,sortedList);
 
+
+
+    }
+
+    @FXML
+    public void handleAddButt() {
+
+        out.println("ADD Button clicked");
+    }
+
+    @FXML
+    public void handleTableClick() {
+        try
+        {
+            selectedRow=table.getSelectionModel().getSelectedIndex();
+            selectedRowProperty.set(selectedRow);
+            //int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();
+            selectedNote=table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
+            Logger.write(selectedNote);
+        }  catch (Exception e)
+        {
+            out.println("Error:" + e.getMessage());
+            selectedRow = 0;
+            selectedRowProperty.set(selectedRow);
+        }
+
+    }
+    @FXML
+    public void handlePrevButt() {
+        int value=priceLvlList.get(selectedRow).get();
+        //if (value > 1) ;
+        priceLvlList.set(selectedRow,new SimpleIntegerProperty(value-1));
+        indexProp.set(indexProp.get()-1);
+      //  System.out.println(table.getItems().get(selectedRow).get(priceLvlList.get(selectedRow).get()).getPrice());
+    }
+
+    @FXML
+    public void handleNextButt() {
+
+        int value=priceLvlList.get(selectedRow).get();
+      //  if (value <filesList.size()-1) ;
+        priceLvlList.set(selectedRow,new SimpleIntegerProperty(value+1));
+        indexProp.set(indexProp.get()+1);
+     //  System.out.println(table.getItems().get(selectedRow).get(priceLvlList.get(selectedRow).get()).getPrice());
+
+    }
+
+    private ProductNote lowestInRow(int rowIndex, int getPos) {
+        return sortedList.get(rowIndex).get(getPos);
+    }
+
+    public void addRowInTable(ObservableList<ProductNote> row){
+        if(!table.getItems().isEmpty())priceLvlList.add(new SimpleIntegerProperty(0));
+        dataList.add(row);
+        addSortedCopyOfARow(row,sortedList);
+
+    }
+
+    public void loadColumns(){
+        table.getColumns().removeAll(table.getColumns());
+        filesList= XmlParser.loadAllPatterns();
+
         TableColumn queryCol=new TableColumn("Шуканий товар");
         queryCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
                 return new SimpleStringProperty(((ProductNote)param.getValue().get(0)).getQueryString());
             }
         });
-
-
         table.getColumns().add(queryCol);
-        for (int i = 0; i < filesList.size(); i++) {
+        for (int i = 0; i < filesList.size(); i++)
+        {
             final int j = i;
             String name = filesList.get(i).getName();
             TableColumn col = new TableColumn(name);
@@ -164,64 +225,8 @@ public class MainController implements Initializable {
             }
         });
         table.getColumns().addAll(differenceCol);
-        TopController.setMainController(this);
-        Logger.setMainController(this);
-
     }
 
-    @FXML
-    public void handleAddButt() {
-
-        out.println("ADD Button clicked");
-    }
-
-    @FXML
-    public void handleTableClick() {
-        try
-        {
-            selectedRow=table.getSelectionModel().getSelectedIndex();
-            selectedRowProperty.set(selectedRow);
-            //int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();
-            selectedNote=table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
-            Logger.write(selectedNote);
-        }  catch (Exception e)
-        {
-            out.println("Error:" + e.getMessage());
-            selectedRow = 0;
-            selectedRowProperty.set(selectedRow);
-        }
-
-    }
-    @FXML
-    public void handlePrevButt() {
-        int value=priceLvlList.get(selectedRow).get();
-        //if (value > 1) ;
-        priceLvlList.set(selectedRow,new SimpleIntegerProperty(value-1));
-        indexProp.set(indexProp.get()-1);
-      //  System.out.println(table.getItems().get(selectedRow).get(priceLvlList.get(selectedRow).get()).getPrice());
-    }
-
-    @FXML
-    public void handleNextButt() {
-
-        int value=priceLvlList.get(selectedRow).get();
-      //  if (value <filesList.size()-1) ;
-        priceLvlList.set(selectedRow,new SimpleIntegerProperty(value+1));
-        indexProp.set(indexProp.get()+1);
-     //  System.out.println(table.getItems().get(selectedRow).get(priceLvlList.get(selectedRow).get()).getPrice());
-
-    }
-
-    private ProductNote lowestInRow(int rowIndex, int getPos) {
-        return sortedList.get(rowIndex).get(getPos);
-    }
-
-    public void addRowInTable(ObservableList<ProductNote> row){
-        if(!table.getItems().isEmpty())priceLvlList.add(new SimpleIntegerProperty(0));
-        dataList.add(row);
-        addSortedCopyOfARow(row,sortedList);
-
-    }
     public void setNewQuery(String newQuery) {
         this.newQuery = newQuery;
     }
