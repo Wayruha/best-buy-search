@@ -36,7 +36,7 @@ public class TopController implements Initializable{
 
     @FXML
     public void handleSearchButt(){
-               out.println("search something:"+searchField.getText());
+        out.println("search something:"+searchField.getText());
         Finder finder=new Finder();
         ObservableList<ProductNote> row=finder.fetchFromExcel(searchField.getText());
         mainController.addRowInTable(row);

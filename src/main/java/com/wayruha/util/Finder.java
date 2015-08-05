@@ -16,11 +16,10 @@ public class Finder {
     Random rand=new Random();
 
     public ObservableList<ProductNote> fetchFromExcel(String queryString){
+        ArrayList<ConfigFile> patternsList=XmlParser.loadAllPatterns();
             ObservableList<ProductNote> row = FXCollections.observableArrayList();
+        for (ConfigFile configFile:XmlParser.loadAllPatterns())
             row.add(new ProductNote(rand.nextInt(100),queryString));
-            row.add(new ProductNote(rand.nextInt(100),queryString));
-            row.add(new ProductNote(55,queryString));
-
         return row;
     }
 
