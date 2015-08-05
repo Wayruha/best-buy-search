@@ -28,6 +28,7 @@ public class PatternBoxController implements Initializable {
     }
 
     public void reload(){
+        patternBox.getChildren().clear();
        ArrayList<ConfigFile> patternsList = XmlParser.loadAllPatterns();
        for(ConfigFile configFile:patternsList){
            PatternGroupLayout patternGroup=new PatternGroupLayout(configFile);

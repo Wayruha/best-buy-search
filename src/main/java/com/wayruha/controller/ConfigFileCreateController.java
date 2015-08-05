@@ -49,6 +49,7 @@ public class ConfigFileCreateController implements Initializable {
             XmlParser.writeAnXml(configFile);
             patternBoxController.reload();
         } catch (Exception e){
+            e.printStackTrace();
             new ErrorWindow();
         }
         stage.close();
