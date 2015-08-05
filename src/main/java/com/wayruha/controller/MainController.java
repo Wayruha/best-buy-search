@@ -66,6 +66,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("mainCtrlInitialize");
+        table.setItems(dataList);
         loadColumns();
         BooleanBinding bindingPrevButt=new BooleanBinding() { { bind(priceLvlList);bind(selectedRowProperty); }
             @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()<1; }
@@ -83,7 +84,7 @@ public class MainController implements Initializable {
         nextButt.disableProperty().bind(Bindings.isEmpty(table.getSelectionModel().getSelectedCells()).or(bindingNextButt));
         table.getSelectionModel().setCellSelectionEnabled(true);
 
-        table.setItems(dataList);
+
         for (ObservableList<ProductNote> obsList:dataList)
             addSortedCopyOfARow(obsList,sortedList);
 
