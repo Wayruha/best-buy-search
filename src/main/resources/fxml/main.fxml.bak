@@ -58,13 +58,9 @@
     </VBox>
   </center>
   <left>
-    <fx:include fx:id="patternBox" source="patternBox.fxml">
-      <children>
-        <Button layoutX="57.0" layoutY="118.0" mnemonicParsing="false" text="Button" />
-      </children>
-    </fx:include>
+    <fx:include fx:id="patternBox" source="patternBox.fxml" />
   </left>
   <top>
-    <fx:include fx:id="top" source="top.fxml" />
+    <!--<fx:include fx:id="top" source="" /> -->   <!--top.-->
   </top>
 </BorderPane>

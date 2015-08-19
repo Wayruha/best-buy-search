@@ -10,57 +10,58 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane prefHeight="771.0" prefWidth="1048.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.MainController">
-  <center>
-    <VBox prefHeight="663.0" prefWidth="878.0" spacing="10.0">
-      <children>
-        <TableView fx:id="table" minWidth="100.0" onMouseClicked="#handleTableClick" prefHeight="432.0" prefWidth="400.0" />
-        <HBox prefHeight="70.0" prefWidth="858.0">
-          <children>
-            <TextArea fx:id="logArea" editable="false" prefHeight="70.0" prefWidth="806.0" wrapText="true" />
-            <VBox prefHeight="200.0" prefWidth="100.0">
-              <children>
-                <ImageView id="prevValue" fx:id="prevValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@images/up.png" preserveRatio="false" smooth="false" />
-                  </image>
-                </ImageView>
-                <ImageView id="nextValue" fx:id="nextValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@images/down.png" preserveRatio="false" smooth="false" />
-                  </image>
-                </ImageView>
-              </children>
-            </VBox>
-          </children>
-        </HBox>
-        <HBox prefHeight="56.0" prefWidth="858.0">
-          <children>
-            <Button fx:id="prevButt" mnemonicParsing="false" onAction="#handlePrevButt" text="Prev Butt" />
-            <Button fx:id="nextButt" mnemonicParsing="false" onAction="#handleNextButt" text="Next Butt">
-              <HBox.margin>
-                <Insets left="30.0" />
-              </HBox.margin>
-            </Button>
-            <Button fx:id="addButt" mnemonicParsing="false" onAction="#handleAddButt" text="Add Button">
-              <HBox.margin>
-                <Insets left="500.0" right="10.0" />
-              </HBox.margin>
-            </Button>
-          </children>
-          <VBox.margin>
-            <Insets />
-          </VBox.margin>
-        </HBox>
-      </children>
-      <padding>
-        <Insets right="20.0" />
-      </padding>
-    </VBox>
-  </center>
-  <left>
-    <fx:include fx:id="patternBox" source="patternBox.fxml" />
-  </left>
-  <top>
-    <fx:include fx:id="top" source="top.fxml" />
-  </top>
+    <center>
+        <VBox prefHeight="663.0" prefWidth="878.0" spacing="10.0">
+            <children>
+                <TableView fx:id="table" minWidth="100.0" onMouseClicked="#handleTableClick" prefHeight="432.0" prefWidth="400.0" />
+                <HBox prefHeight="203.0" prefWidth="858.0">
+                    <children>
+                        <ListView prefHeight="141.0" prefWidth="750.0" fx:id="groupView" />
+                        <VBox prefHeight="70.0" prefWidth="100.0001220703125">
+                            <children>
+                                <ImageView id="prevValue" fx:id="prevValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="images/up.png" preserveRatio="false" smooth="false" />
+                                    </image>
+                                </ImageView>
+                                <ImageView id="nextValue" fx:id="nextValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="images/down.png" preserveRatio="false" smooth="false" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <TextArea fx:id="logArea" editable="false" prefHeight="30.0" prefWidth="782.0" wrapText="true" />
+                <HBox prefHeight="56.0" prefWidth="858.0">
+                    <children>
+                        <Button fx:id="prevButt" mnemonicParsing="false" onAction="#handlePrevButt" text="Prev Butt" />
+                        <Button fx:id="nextButt" mnemonicParsing="false" onAction="#handleNextButt" text="Next Butt">
+                            <HBox.margin>
+                                <Insets left="30.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="addButt" mnemonicParsing="false" onAction="#handleAddButt" text="Add Button">
+                            <HBox.margin>
+                                <Insets left="500.0" right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </HBox>
+            </children>
+            <padding>
+                <Insets right="20.0" />
+            </padding>
+        </VBox>
+    </center>
+    <left>
+        <fx:include fx:id="patternBox" source="patternBox.fxml" />
+    </left>
+    <top>
+        <fx:include fx:id="top" source="top.fxml" />    <!--top.-->
+    </top>
 </BorderPane>
