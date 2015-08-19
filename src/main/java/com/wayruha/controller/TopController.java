@@ -1,6 +1,6 @@
 package com.wayruha.controller;
 
-import com.wayruha.model.ProductNote;
+import com.wayruha.model.ProductsGroup;
 import com.wayruha.util.Finder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +38,7 @@ public class TopController implements Initializable{
     public void handleSearchButt(){
         out.println("search something:"+searchField.getText());
         Finder finder=new Finder();
-        ObservableList<ProductNote> row=finder.fetchFromExcel(searchField.getText());
+        ObservableList<ProductsGroup> row=finder.fetchFromExcel(searchField.getText());
         mainController.addRowInTable(row);
         searchField.setText(null);
     }

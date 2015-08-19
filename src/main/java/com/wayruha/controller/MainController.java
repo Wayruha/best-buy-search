@@ -1,9 +1,11 @@
 package com.wayruha.controller;
 
-import com.wayruha.MainApp;
+import com.wayruha.customForms.CustomListCell;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.model.ProductNote;
+import com.wayruha.model.ProductsGroup;
 import com.wayruha.util.Logger;
+import com.wayruha.util.ProductsComparator;
 import com.wayruha.util.XmlParser;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -26,7 +28,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.System.out;
@@ -39,7 +41,9 @@ public class MainController implements Initializable {
     @FXML
     AnchorPane patternBox;
     @FXML
-    TableView<ObservableList<ProductNote>> table;
+    TableView<ObservableList<ProductsGroup>> table;
+    @FXML
+    ListView<ProductNote> groupView;
     @FXML
     Button addButt, prevButt, nextButt;
     @FXML
@@ -48,15 +52,12 @@ public class MainController implements Initializable {
     public  TextArea logArea;
 
 
-    private String newQuery;
-
-    MainApp mainApp;
     private int selectedRow;
     private SimpleIntegerProperty selectedRowProperty=new SimpleIntegerProperty();
-    private ProductNote selectedNote;
+    ProductsGroup selectedGroup;
 
     ArrayList<ConfigFile> filesList;
-    ObservableList<ObservableList<ProductNote>> dataList = FXCollections.observableArrayList();
+    ObservableList<ObservableList<ProductsGroup>> dataList = FXCollections.observableArrayList();
     SimpleIntegerProperty indexProp = new SimpleIntegerProperty(1);
     ObservableList<SimpleIntegerProperty> priceLvlList = FXCollections.observableArrayList();
     ArrayList<ArrayList<ProductNote>>sortedList=new ArrayList<>();
@@ -65,9 +66,10 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("mainCtrlInitialize");
+
         table.setItems(dataList);
         loadColumns();
+
         BooleanBinding bindingPrevButt=new BooleanBinding() { { bind(priceLvlList);bind(selectedRowProperty); }
             @Override protected boolean computeValue() { return priceLvlList.get(selectedRowProperty.get()).get()<1; }
         }, bindingNextButt=new BooleanBinding() { { bind(priceLvlList); bind(selectedRowProperty); }
@@ -85,9 +87,9 @@ public class MainController implements Initializable {
         table.getSelectionModel().setCellSelectionEnabled(true);
 
 
-        for (ObservableList<ProductNote> obsList:dataList)
+       /* for (ObservableList<ProductsGroup> obsList:dataList)    //Таблиця ж зразу пуста.
             addSortedCopyOfARow(obsList,sortedList);
-
+*/
 
 
     }
@@ -104,16 +106,35 @@ public class MainController implements Initializable {
         {
             selectedRow=table.getSelectionModel().getSelectedIndex();
             selectedRowProperty.set(selectedRow);
-            //int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();
-            selectedNote=table.getItems().get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
-            Logger.write(selectedNote);
-        }  catch (Exception e)
+//int col = table.getSelectionModel().getSelectedCells().get(0).getColumn();  //For debugging
+           // System.out.println("col:"+col);
+            selectedGroup=dataList.get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
+            groupView.setItems(selectedGroup.getNoteList());
+            groupView.getSelectionModel().selectFirst();
+            Logger.write(selectedGroup.getSelectedNote());
+
+           // groupView.getItems().remove(0);
+
+           // refreshTableView();
+           // TablePosition tp=table.getSelectionModel().getSelectedCells().get(0);
+
+
+           // selectedNote=selectedGroup.getSelectedNote();
+
+        }  catch (IndexOutOfBoundsException e)
         {
-            out.println("Error:" + e.getMessage());
+            e.printStackTrace();
+            //out.println(" Вийшли за межі таблиці.Error:" + e.getMessage());
             selectedRow = 0;
             selectedRowProperty.set(selectedRow);
         }
 
+    }
+    public void refreshTableView() {
+        List columns=new ArrayList<>(table.getColumns());
+        table.getColumns().clear();
+        table.getColumns().addAll(columns);
+        table.setItems(dataList);
     }
     @FXML
     public void handlePrevButt() {
@@ -139,10 +160,13 @@ public class MainController implements Initializable {
         return sortedList.get(rowIndex).get(getPos);
     }
 
-    public void addRowInTable(ObservableList<ProductNote> row){
+    public void addRowInTable(ObservableList<ProductsGroup> row){
         if(!table.getItems().isEmpty())priceLvlList.add(new SimpleIntegerProperty(0));
+        ObservableList<ProductNote> tableRow=FXCollections.observableArrayList();
+        for (ProductsGroup group:row)
+            tableRow.add(group.getSelectedNote());
         dataList.add(row);
-        addSortedCopyOfARow(row,sortedList);
+        addSortedCopyOfARow(tableRow, sortedList);  //tableRow
 
     }
 
@@ -153,7 +177,7 @@ public class MainController implements Initializable {
         TableColumn queryCol=new TableColumn("Шуканий товар");
         queryCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
-                return new SimpleStringProperty(((ProductNote)param.getValue().get(0)).getQueryString());
+                return new SimpleStringProperty(((ProductsGroup)param.getValue().get(0)).getSelectedNote().getQueryString());
             }
         });
         table.getColumns().add(queryCol);
@@ -164,7 +188,7 @@ public class MainController implements Initializable {
             TableColumn col = new TableColumn(name);
             col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, SimpleDoubleProperty>() {
                 public SimpleDoubleProperty call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
-                    return new SimpleDoubleProperty(((ProductNote) param.getValue().get(j)).getPrice());
+                    return new SimpleDoubleProperty(((ProductsGroup)param.getValue().get(j)).getSelectedNote().getPrice());
                 }
             });
             col.setCellFactory(new Callback<TableColumn, TableCell>() {
@@ -189,9 +213,9 @@ public class MainController implements Initializable {
 
                     priceLvlList.addListener((ListChangeListener<SimpleIntegerProperty>) c -> {
                         if (cell.getItem() != null) {
-                            ProductNote note=((ObservableList<ProductNote>)cell.getTableRow().getItem()).get(j);
-                            if (table.getItems().get(selectedRow).contains(note))   //TODO правильно зробити Equals()
-                                if (note.equals(lowestInRow(selectedRow, priceLvlList.get(selectedRow).get())))
+                            ProductsGroup group=((ObservableList<ProductsGroup>)cell.getTableRow().getItem()).get(j);
+                            if (table.getItems().get(selectedRow).contains(group))   //TODO правильно зробити Equals()
+                                if (group.getSelectedNote().equals(lowestInRow(selectedRow, priceLvlList.get(selectedRow).get())))
                                     cell.setTextFill(Color.RED);
                                 else cell.setTextFill(Color.BLACK);
                         }
@@ -208,16 +232,18 @@ public class MainController implements Initializable {
             }
         });
         differenceCol.setCellFactory(new Callback<TableColumn, TableCell>() {
-            @Override public TableCell call(TableColumn param) {
-                final TableCell cell=new TableCell(){
-                    @Override protected void updateItem(Object item, boolean empty) {
+            @Override
+            public TableCell call(TableColumn param) {
+                final TableCell cell = new TableCell() {
+                    @Override
+                    protected void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (item!=null)
+                        if (item != null)
                             setText(String.valueOf(lowestInRow(getIndex(), 0).getPrice() - sortedList.get(getIndex()).get(priceLvlList.get(getIndex()).get()).getPrice()));
                     }
                 };
                 priceLvlList.addListener((ListChangeListener<SimpleIntegerProperty>) c -> {
-                    if (cell.getItem()!=null)
+                    if (cell.getItem() != null)
                         cell.setText(String.valueOf(lowestInRow(cell.getIndex(), 0).getPrice() - sortedList.get(cell.getIndex()).get(priceLvlList.get(cell.getIndex()).get()).getPrice()));
 
                 });
@@ -225,28 +251,42 @@ public class MainController implements Initializable {
 
             }
         });
+         final MainController mc=this;
+        groupView.setCellFactory(new Callback<ListView<ProductNote>, ListCell<ProductNote>>() {
+           @Override
+           public ListCell<ProductNote> call(ListView<ProductNote> param) {
+               return new CustomListCell(mc,selectedRowProperty);
+           }
+       });
         table.getColumns().addAll(differenceCol);
     }
 
-    public void setNewQuery(String newQuery) {
-        this.newQuery = newQuery;
+    public void reMakeSortedList(){
+        sortedList.clear();
+        ArrayList<ProductNote> sortedRow=new ArrayList();
+        for(ObservableList<ProductsGroup> row:dataList) {
+            for (ProductsGroup group : row)
+                sortedRow.add(group.getSelectedNote());
+            sortedRow.sort(new ProductsComparator());
+            sortedList.add(sortedRow);
+        }
+    }
+    public void reMakeSortedList(int index){                       //TODO метод походу не викупає шо інфа змінилася і сортує ще за старою. Чи так це?
+        ArrayList<ProductNote> sortedRow=new ArrayList();
+            for (ProductsGroup group : dataList.get(index))
+                sortedRow.add(group.getSelectedNote());
+            sortedRow.sort(new ProductsComparator());
+            sortedList.set(index, sortedRow);
+
     }
 
-    public String getNewQuery() {
-        return newQuery;
-    }
-
-    public  void addSortedCopyOfARow(ObservableList row, ArrayList destList){
+    public  void addSortedCopyOfARow(ObservableList<ProductNote> row, ArrayList destList){
         ArrayList list=new ArrayList<>(row);
         // Collections.copy(list,obsList);
-        Collections.sort(list,(Comparator) (o1, o2) -> {
-            ProductNote note1 = (ProductNote) o1;
-            ProductNote note2 = (ProductNote) o2;
-            if (note1.getPrice() < note2.getPrice()) return -1;
-            else if (note1.getPrice() > note2.getPrice()) return 1;
-            else return 0;
-        });
+        Collections.sort(list,new ProductsComparator());
         destList.add(list);
     }
+
+
 
 }
