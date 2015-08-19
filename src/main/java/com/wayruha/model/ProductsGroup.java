@@ -1,23 +1,33 @@
 package com.wayruha.model;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ToggleGroup;
 
-import javafx.beans.Observable;
 
-
-public class ProductsGroup implements Observable {
-    SimpleIntegerProperty selectedIndex;
+public class ProductsGroup extends ToggleGroup {
+    int selectedIndex;
     ObservableList<ProductNote> noteList;
 
-    public ProductsGroup(ObservableList<ProductNote> noteList, SimpleIntegerProperty selectedItem) {
+    public ProductsGroup(ObservableList<ProductNote> noteList) {
+        this.selectedIndex=0;
         this.noteList = noteList;
-        this.selectedIndex = selectedItem;
+        for(ProductNote note:noteList)
+            note.setGroup(this);
+
+        selectedToggleProperty().addListener((ov,oldToggle,newToggle)->{
+            if (getSelectedToggle() != null)
+              selectedIndex=(Integer)getSelectedToggle().getUserData();
+
+        });
+
+    }
+
+    public int getSelectedIndex(){
+        return selectedIndex;
     }
 
     public ProductNote getSelectedNote(){
-        return noteList.get(selectedIndex.get());
+        return noteList.get(selectedIndex);
     }
 
     public ObservableList<ProductNote> getNoteList() {
@@ -28,25 +38,6 @@ public class ProductsGroup implements Observable {
         this.noteList = noteList;
     }
 
-    public int getSelectedIndex() {
-        return selectedIndex.get();
-    }
 
-    public SimpleIntegerProperty selectedIndexProperty() {
-        return selectedIndex;
-    }
 
-    public void setSelectedIndex(int selectedIndex) {
-        this.selectedIndex.set(selectedIndex);
-    }
-
-    @Override
-    public void addListener(InvalidationListener listener) {
-
-    }
-
-    @Override
-    public void removeListener(InvalidationListener listener) {
-
-    }
 }
