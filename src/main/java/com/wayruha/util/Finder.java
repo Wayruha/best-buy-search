@@ -4,7 +4,6 @@ package com.wayruha.util;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.model.ProductNote;
 import com.wayruha.model.ProductsGroup;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -26,7 +25,7 @@ public class Finder {
             list.add(new ProductNote(rand.nextInt(100), queryString));
             list.add(new ProductNote(rand.nextInt(100), queryString));
             list.sort(new ProductsComparator());
-            group = new ProductsGroup(list, new SimpleIntegerProperty(0));
+            group = new ProductsGroup(list);
             row.add(group);
         }
         return row;

@@ -110,17 +110,7 @@ public class MainController implements Initializable {
            // System.out.println("col:"+col);
             selectedGroup=dataList.get(selectedRow).get(table.getSelectionModel().getSelectedCells().get(0).getColumn()-1);
             groupView.setItems(selectedGroup.getNoteList());
-            groupView.getSelectionModel().selectFirst();
             Logger.write(selectedGroup.getSelectedNote());
-
-           // groupView.getItems().remove(0);
-
-           // refreshTableView();
-           // TablePosition tp=table.getSelectionModel().getSelectedCells().get(0);
-
-
-           // selectedNote=selectedGroup.getSelectedNote();
-
         }  catch (IndexOutOfBoundsException e)
         {
             e.printStackTrace();
@@ -128,14 +118,13 @@ public class MainController implements Initializable {
             selectedRow = 0;
             selectedRowProperty.set(selectedRow);
         }
+    }
+    @FXML
+    public void handleListClick(){
+
 
     }
-    public void refreshTableView() {
-        List columns=new ArrayList<>(table.getColumns());
-        table.getColumns().clear();
-        table.getColumns().addAll(columns);
-        table.setItems(dataList);
-    }
+
     @FXML
     public void handlePrevButt() {
         int value=priceLvlList.get(selectedRow).get();
@@ -147,13 +136,19 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleNextButt() {
-
         int value=priceLvlList.get(selectedRow).get();
       //  if (value <filesList.size()-1) ;
         priceLvlList.set(selectedRow,new SimpleIntegerProperty(value+1));
         indexProp.set(indexProp.get()+1);
      //  System.out.println(table.getItems().get(selectedRow).get(priceLvlList.get(selectedRow).get()).getPrice());
 
+    }
+
+    public void refreshTableView() {
+        List columns=new ArrayList<>(table.getColumns());
+        table.getColumns().clear();
+        table.getColumns().addAll(columns);
+        table.setItems(dataList);
     }
 
     private ProductNote lowestInRow(int rowIndex, int getPos) {
@@ -257,6 +252,7 @@ public class MainController implements Initializable {
            public ListCell<ProductNote> call(ListView<ProductNote> param) {
                return new CustomListCell(mc,selectedRowProperty);
            }
+
        });
         table.getColumns().addAll(differenceCol);
     }

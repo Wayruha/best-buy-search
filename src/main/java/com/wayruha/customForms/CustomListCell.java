@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -13,6 +14,7 @@ import javafx.scene.layout.Priority;
 public final class CustomListCell extends ListCell {
     Label label;
     Pane pane;
+    RadioButton radio;
     Button butt;
     HBox box;
 
@@ -20,6 +22,7 @@ public final class CustomListCell extends ListCell {
         super();
         label=new Label();
         pane=new Pane();
+        radio=new RadioButton();
         butt=new Button();
         box=new HBox();
         butt.setOnAction(event->{
@@ -27,7 +30,7 @@ public final class CustomListCell extends ListCell {
             mainController.reMakeSortedList(row.get());
             mainController.refreshTableView();
         });
-        box.getChildren().addAll(label,pane,butt);
+        box.getChildren().addAll(label,pane,radio,butt);
         HBox.setHgrow(pane, Priority.ALWAYS);
     }
 
@@ -36,8 +39,15 @@ public final class CustomListCell extends ListCell {
         super.updateItem(item, empty);
         setText(null);
         if(!empty){
+            radio.setSelected(false);
             ProductNote note=(ProductNote)item;
-            label.setText(note.getConfigFile()+":"+note.getQueryString()+". Price: "+note.getPrice());
+
+            radio.setToggleGroup(note.getGroup());
+            radio.setUserData(note.getGroup().getNoteList().indexOf(item));
+
+            if(item.equals(note.getGroup().getSelectedNote())) radio.setSelected(true);
+
+            label.setText(note.getConfigFile() + ":" + note.getQueryString() + ". Price: " + note.getPrice());
             setGraphic(box);
         }
         else{

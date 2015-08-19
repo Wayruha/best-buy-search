@@ -9,6 +9,15 @@ public class ProductNote{
     double price;
     String description;
     String queryString;
+    ProductsGroup group;
+
+    public ProductsGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(ProductsGroup group) {
+        this.group = group;
+    }
 
     public ConfigFile getConfigFile() {
         return configFile;

@@ -16,7 +16,7 @@
                 <TableView fx:id="table" minWidth="100.0" onMouseClicked="#handleTableClick" prefHeight="432.0" prefWidth="400.0" />
                 <HBox prefHeight="203.0" prefWidth="858.0">
                     <children>
-                        <ListView prefHeight="141.0" prefWidth="750.0" fx:id="groupView" />
+                        <ListView prefHeight="141.0" prefWidth="750.0" fx:id="groupView" onMouseClicked="#handleListClick" />
                         <VBox prefHeight="70.0" prefWidth="100.0001220703125">
                             <children>
                                 <ImageView id="prevValue" fx:id="prevValueImg" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
