@@ -17,6 +17,7 @@ public final class CustomListCell extends ListCell {
     RadioButton radio;
     Button butt;
     HBox box;
+    MainController mainController;
 
     public CustomListCell(MainController mainController,SimpleIntegerProperty row) {
         super();
@@ -25,6 +26,7 @@ public final class CustomListCell extends ListCell {
         radio=new RadioButton();
         butt=new Button();
         box=new HBox();
+        this.mainController=mainController;
         butt.setOnAction(event->{
             this.getListView().getItems().remove(getIndex());
             mainController.reMakeSortedList(row.get());
@@ -45,8 +47,9 @@ public final class CustomListCell extends ListCell {
             radio.setToggleGroup(note.getGroup());
             radio.setUserData(note.getGroup().getNoteList().indexOf(item));
 
-            if(item.equals(note.getGroup().getSelectedNote())) radio.setSelected(true);
 
+            if(item.equals(note.getGroup().getSelectedNote())) radio.setSelected(true);
+        //    if(note.getGroup().isNeedRefreshTable()) {mainController.refreshTableView(); note.getGroup().setNeedRefreshTable(false);}
             label.setText(note.getConfigFile() + ":" + note.getQueryString() + ". Price: " + note.getPrice());
             setGraphic(box);
         }

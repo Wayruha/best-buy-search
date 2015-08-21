@@ -28,7 +28,6 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.System.out;
@@ -145,10 +144,14 @@ public class MainController implements Initializable {
     }
 
     public void refreshTableView() {
-        List columns=new ArrayList<>(table.getColumns());
-        table.getColumns().clear();
-        table.getColumns().addAll(columns);
-        table.setItems(dataList);
+
+        TablePosition selectedPos=table.getSelectionModel().getSelectedCells().get(0);
+        ObservableList newList=FXCollections.observableArrayList(dataList);
+        dataList.removeAll(dataList);
+        dataList.addAll(newList);
+        newList=null;
+        table.getSelectionModel().select(selectedPos.getRow(),selectedPos.getTableColumn());
+
     }
 
     private ProductNote lowestInRow(int rowIndex, int getPos) {
@@ -158,8 +161,13 @@ public class MainController implements Initializable {
     public void addRowInTable(ObservableList<ProductsGroup> row){
         if(!table.getItems().isEmpty())priceLvlList.add(new SimpleIntegerProperty(0));
         ObservableList<ProductNote> tableRow=FXCollections.observableArrayList();
-        for (ProductsGroup group:row)
+        for (ProductsGroup group:row) {
+            group.selectedToggleProperty().addListener((ov,oldToggle,newToggle)->{
+                reMakeSortedList(selectedRow);
+                refreshTableView();
+            });
             tableRow.add(group.getSelectedNote());
+        }
         dataList.add(row);
         addSortedCopyOfARow(tableRow, sortedList);  //tableRow
 

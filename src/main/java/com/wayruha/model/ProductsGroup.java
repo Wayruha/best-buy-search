@@ -8,6 +8,7 @@ public class ProductsGroup extends ToggleGroup {
     int selectedIndex;
     ObservableList<ProductNote> noteList;
 
+
     public ProductsGroup(ObservableList<ProductNote> noteList) {
         this.selectedIndex=0;
         this.noteList = noteList;
