@@ -1,8 +1,6 @@
 package com.wayruha.controller;
 
-import com.wayruha.model.ProductsGroup;
 import com.wayruha.util.Finder;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +23,7 @@ public class TopController implements Initializable{
     @FXML
     Button searchButt;
     @FXML
-    TextField searchField;
+    TextField manufacturerField,modelField;
     @FXML
     ImageView addImg;
     static MainController mainController;
@@ -36,15 +34,13 @@ public class TopController implements Initializable{
 
     @FXML
     public void handleSearchButt(){
-        out.println("search something:"+searchField.getText());
+        out.println("search something:"+manufacturerField.getText()+":"+modelField.getText());
         Finder finder=new Finder();
-        ObservableList<ProductsGroup> row=finder.fetchFromExcel(searchField.getText());
-        mainController.addRowInTable(row);
-        searchField.setText(null);
+        mainController.addRowInTable(finder.fetchFromExcel(manufacturerField.getText()+":"+modelField.getText()));
+        modelField.setText(null);
     }
     @FXML
     public void handleAddPattern(){
-
         String fxmlFile = "/fxml/configFileCreate.fxml";
         Stage stage = new Stage();
         ConfigFileCreateController fileCreateController=new ConfigFileCreateController();
@@ -65,7 +61,8 @@ public class TopController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        searchField.setOnKeyPressed(event->{ if (event.getCode().toString().equalsIgnoreCase("ENTER")) handleSearchButt(); });
+        manufacturerField.setOnKeyPressed(event->{ if (event.getCode().toString().equalsIgnoreCase("ENTER")) handleSearchButt(); });
+        modelField.setOnKeyPressed(event->{ if (event.getCode().toString().equalsIgnoreCase("ENTER")) handleSearchButt(); });
     }
 
     public TopController(){}

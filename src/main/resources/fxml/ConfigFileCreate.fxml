@@ -16,7 +16,7 @@
         <Label text="Колонка для ціни" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
         <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Колонка моделі" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
         <Label text="Колонка виробника" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-        <Label disable="true" text="Колонка для запису" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label fx:id="appendLabel" disable="true" text="Колонка для запису" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
         <TextField fx:id="name" prefWidth="222.0" promptText="Наприклад &quot;СКС&quot;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
         <TextField fx:id="priceCol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="modelCol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -26,7 +26,7 @@
             <Insets />
           </GridPane.margin>
         </TextField>
-        <CheckBox fx:id="checkAppend" mnemonicParsing="false" text="Робити помітки про закупівлю у Excel-файл" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+        <CheckBox fx:id="checkAppend" mnemonicParsing="false"  text="Робити помітки про закупівлю у Excel-файл" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
           <GridPane.margin>
             <Insets left="20.0" />
           </GridPane.margin>

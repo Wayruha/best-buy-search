@@ -23,6 +23,7 @@ public class ConfigFile {
         this.manufacturerCol = manufacturerCol;
         this.appendCol = appendCol;
     }
+
     public ConfigFile(String name) {
         this.name = name;
     }
