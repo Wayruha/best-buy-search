@@ -18,6 +18,20 @@ import java.io.File;
 import java.util.ArrayList;
 
 public final class XmlParser {
+
+    public static ConfigFile readSettingsFromName(String patternName){
+        Document doc= null;
+        ConfigFile configFile=null;
+        try {
+            doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+            Element root = doc.getDocumentElement();
+            Node patternElement=root.getElementsByTagName(patternName).item(0);
+            configFile=nodeToConfigObject(patternElement);
+        } catch (Exception e) { e.printStackTrace(); }
+
+        return configFile;
+    }
+
     public static ArrayList<ConfigFile> loadAllPatterns() {
         ArrayList<ConfigFile> patternsList = new ArrayList<>();
         try {
@@ -29,14 +43,7 @@ public final class XmlParser {
             for (int i = 0; i < root.getChildNodes().getLength(); i++) {
                 pattern = root.getChildNodes().item(i);
                 if (pattern.getNodeValue()!=null) continue;   //У мене всі мають Нуль значення. А якщо значення існує  - це проста стрічка
-                String name = pattern.getNodeName();
-                String filePath = pattern.getAttributes().getNamedItem("filePath").getNodeValue();
-                int priceCol = Integer.valueOf(pattern.getAttributes().getNamedItem("priceCol").getNodeValue());
-                int modelCol = Integer.valueOf(pattern.getAttributes().getNamedItem("modelCol").getNodeValue());
-                int manufacturerCol = Integer.valueOf(pattern.getAttributes().getNamedItem("manufacturerCol").getNodeValue());
-                int appendCol = Integer.valueOf(pattern.getAttributes().getNamedItem("appendCol").getNodeValue());
-                configFile = new ConfigFile(name, filePath, priceCol, modelCol, manufacturerCol, appendCol);
-                patternsList.add(configFile);
+                patternsList.add(nodeToConfigObject(pattern));
             }
 
         } catch (Exception e) {
@@ -45,21 +52,26 @@ public final class XmlParser {
         return patternsList;
     }
 
-    public static void writeAnXml(ConfigFile configFile) throws Exception {
+    public static void writeAnXml(ConfigFile configFile,String oldName) throws Exception {
         Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
         Element root;
         if (!doc.hasChildNodes()) {root = doc.createElement("patterns");  doc.appendChild(root);}//Ставимо рутНод ящко документ пустий
         else root = doc.getDocumentElement();
-        Element nameElement = doc.createElement(configFile.getName());
 
-        nameElement.setAttribute("appendCol", String.valueOf(configFile.getAppendCol()));
-        nameElement.setAttribute("manufacturerCol", String.valueOf(configFile.getManufacturerCol()));
-        nameElement.setAttribute("modelCol", String.valueOf(configFile.getModelCol()));
-        nameElement.setAttribute("priceCol", String.valueOf(configFile.getPriceCol()));
-        nameElement.setAttribute("filePath", configFile.getFilePath());
+            Element nameElement = doc.createElement(configFile.getName());
 
-        Node searchedElement=root.getElementsByTagName(configFile.getName()).item(0);
-        if(searchedElement!=null) root.replaceChild(nameElement,searchedElement);
+            nameElement.setAttribute("appendCol", String.valueOf(configFile.getAppendCol()));
+            nameElement.setAttribute("manufacturerCol", String.valueOf(configFile.getManufacturerCol()));
+            nameElement.setAttribute("modelCol", String.valueOf(configFile.getModelCol()));
+            nameElement.setAttribute("priceCol", String.valueOf(configFile.getPriceCol()));
+            nameElement.setAttribute("filePath", configFile.getFilePath());
+
+
+        if(oldName!=null) {
+            Node searchedElement = root.getElementsByTagName(oldName).item(0);
+            if(searchedElement!=null) root.replaceChild(nameElement,searchedElement);
+        }
+
         else root.appendChild(nameElement);
         writeContentIntoXML(doc,"src/main/resources/xml/patterns.xml");
     }
@@ -89,5 +101,15 @@ public final class XmlParser {
         // Output to console for testing
         StreamResult consoleResult = new StreamResult(System.out);
         transformer.transform(source, consoleResult);
+    }
+
+    private static ConfigFile nodeToConfigObject(Node pattern){
+        String name = pattern.getNodeName();
+        String filePath = pattern.getAttributes().getNamedItem("filePath").getNodeValue();
+        int priceCol = Integer.valueOf(pattern.getAttributes().getNamedItem("priceCol").getNodeValue());
+        int modelCol = Integer.valueOf(pattern.getAttributes().getNamedItem("modelCol").getNodeValue());
+        int manufacturerCol = Integer.valueOf(pattern.getAttributes().getNamedItem("manufacturerCol").getNodeValue());
+        int appendCol = Integer.valueOf(pattern.getAttributes().getNamedItem("appendCol").getNodeValue());
+        return new ConfigFile(name, filePath, priceCol, modelCol, manufacturerCol, appendCol);
     }
 }

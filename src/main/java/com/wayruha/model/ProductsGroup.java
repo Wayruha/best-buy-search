@@ -1,5 +1,6 @@
 package com.wayruha.model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ToggleGroup;
 
@@ -8,6 +9,9 @@ public class ProductsGroup extends ToggleGroup {
     int selectedIndex;
     ObservableList<ProductNote> noteList;
 
+    public ProductsGroup() {
+        noteList= FXCollections.observableArrayList();
+    }
 
     public ProductsGroup(ObservableList<ProductNote> noteList) {
         this.selectedIndex=0;
@@ -26,6 +30,8 @@ public class ProductsGroup extends ToggleGroup {
     public int getSelectedIndex(){
         return selectedIndex;
     }
+
+    public void decreaseSelectedIndex(){this.selectedIndex--; }
 
     public ProductNote getSelectedNote(){
         return noteList.get(selectedIndex);

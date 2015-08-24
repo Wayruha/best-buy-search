@@ -21,7 +21,7 @@ public class PatternBoxController implements Initializable {
     static MainController mainController;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {   //TODO ////////////////////////// Зробити ДОпис в файл патернів а не перезапис.
+    public void initialize(URL location, ResourceBundle resources) {
 
         reload();
         ConfigFileCreateController.setPatternBoxController(this);

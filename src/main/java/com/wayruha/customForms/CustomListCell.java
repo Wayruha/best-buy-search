@@ -2,6 +2,7 @@ package com.wayruha.customForms;
 
 import com.wayruha.controller.MainController;
 import com.wayruha.model.ProductNote;
+import com.wayruha.model.ProductsGroup;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,9 +19,11 @@ public final class CustomListCell extends ListCell {
     Button butt;
     HBox box;
     MainController mainController;
+    ProductsGroup group;
 
     public CustomListCell(MainController mainController,SimpleIntegerProperty row) {
         super();
+
         label=new Label();
         pane=new Pane();
         radio=new RadioButton();
@@ -28,6 +31,7 @@ public final class CustomListCell extends ListCell {
         box=new HBox();
         this.mainController=mainController;
         butt.setOnAction(event->{
+            if(getIndex()<=group.getSelectedIndex()) group.decreaseSelectedIndex();
             this.getListView().getItems().remove(getIndex());
             mainController.reMakeSortedList(row.get());
             mainController.refreshTableView();
@@ -41,15 +45,13 @@ public final class CustomListCell extends ListCell {
         super.updateItem(item, empty);
         setText(null);
         if(!empty){
+             group=((ProductNote)this.getListView().getItems().get(getIndex())).getGroup();
             radio.setSelected(false);
             ProductNote note=(ProductNote)item;
 
             radio.setToggleGroup(note.getGroup());
             radio.setUserData(note.getGroup().getNoteList().indexOf(item));
-
-
             if(item.equals(note.getGroup().getSelectedNote())) radio.setSelected(true);
-        //    if(note.getGroup().isNeedRefreshTable()) {mainController.refreshTableView(); note.getGroup().setNeedRefreshTable(false);}
             label.setText(note.getConfigFile() + ":" + note.getQueryString() + ". Price: " + note.getPrice());
             setGraphic(box);
         }

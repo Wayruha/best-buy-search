@@ -1,5 +1,7 @@
 package com.wayruha.model;
 
+import org.apache.poi.ss.usermodel.Row;
+
 /**
  * Created by Roman on 17.07.2015.
  */
@@ -7,9 +9,10 @@ public class ProductNote{
 
     ConfigFile configFile;
     double price;
-    String description;
+    String description;   //not in use
     String queryString;
     ProductsGroup group;
+    Row row;
 
     public ProductsGroup getGroup() {
         return group;
@@ -52,6 +55,11 @@ public class ProductNote{
 
 
     public ProductNote(){}
+    public ProductNote(Row row){
+        this.row=row;
+        this.price=row.getCell(configFile.getPriceCol()).getNumericCellValue();
+    }
+
     public ProductNote(double price,String queryString){
         this.price=price;
         this.queryString=queryString;
