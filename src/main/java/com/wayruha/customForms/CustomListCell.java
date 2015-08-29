@@ -45,14 +45,14 @@ public final class CustomListCell extends ListCell {
         super.updateItem(item, empty);
         setText(null);
         if(!empty){
-             group=((ProductNote)this.getListView().getItems().get(getIndex())).getGroup();
+            group=((ProductNote)this.getListView().getItems().get(getIndex())).getGroup();
             radio.setSelected(false);
             ProductNote note=(ProductNote)item;
 
             radio.setToggleGroup(note.getGroup());
             radio.setUserData(note.getGroup().getNoteList().indexOf(item));
             if(item.equals(note.getGroup().getSelectedNote())) radio.setSelected(true);
-            label.setText(note.getConfigFile() + ":" + note.getQueryString() + ". Price: " + note.getPrice());
+            label.setText(note.toString());
             setGraphic(box);
         }
         else{

@@ -1,8 +1,5 @@
 package com.wayruha.model;
 
-/**
- * Created by Roman on 17.07.2015.
- */
 public class ConfigFile {
     String name, filePath;
     int priceCol,modelCol,manufacturerCol,appendCol;
