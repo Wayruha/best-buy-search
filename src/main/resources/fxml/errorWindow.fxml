@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="148.0" prefWidth="355.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <Label fx:id="errorLabel" alignment="TOP_LEFT" layoutX="14.0" layoutY="10.0" prefHeight="128.0" prefWidth="320.0" />
+  </children>
+</AnchorPane>
