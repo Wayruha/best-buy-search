@@ -2,7 +2,7 @@ package com.wayruha.customForms;
 
 import com.wayruha.controller.ConfigFileCreateController;
 import com.wayruha.model.ConfigFile;
-import com.wayruha.util.XmlParser;
+import com.wayruha.util.Parser;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -20,17 +20,17 @@ public class PatternGroupLayout {
     HBox hBox;
     String patternName;
     final int imgWidth=21,imgHeight=28;
+    boolean isLoaded;
 
-    public PatternGroupLayout(String name){
-        this.patternName=name;
-    }
-    public PatternGroupLayout(ConfigFile file){
+
+    public PatternGroupLayout(ConfigFile file,boolean isLoaded){
         this.patternName=file.getName();
+        this.isLoaded=isLoaded;
     }
 
     public HBox createLayout(){
         hBox=new HBox();
-        hBox.setId("patternHBox");
+        hBox.setId(isLoaded?"patternHBox":"notLoadedPatternHBox");
 
         Label label=new Label(patternName);
         label.setContentDisplay(ContentDisplay.CENTER);
@@ -52,7 +52,7 @@ public class PatternGroupLayout {
     public void loadFileSettings(MouseEvent event){
         String fxmlFile = "/fxml/configFileCreate.fxml";
         Stage stage = new Stage();
-        ConfigFileCreateController fileCreateController=new ConfigFileCreateController(XmlParser.readSettingsFromName(patternName));
+        ConfigFileCreateController fileCreateController=new ConfigFileCreateController(Parser.readSettingsFromName(patternName));
         fileCreateController.setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setController(fileCreateController);

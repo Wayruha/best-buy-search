@@ -1,16 +1,15 @@
 package com.wayruha.model;
 
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 
-/**
- * Created by Roman on 17.07.2015.
- */
+import java.util.Iterator;
+
 public class ProductNote{
 
-    ConfigFile configFile;
     double price;
-    String description;   //not in use
-    String queryString;
     ProductsGroup group;
     Row row;
 
@@ -22,14 +21,6 @@ public class ProductNote{
         this.group = group;
     }
 
-    public ConfigFile getConfigFile() {
-        return configFile;
-    }
-
-    public void setConfigFile(ConfigFile configFile) {
-        this.configFile = configFile;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -38,38 +29,15 @@ public class ProductNote{
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getQueryString() {
-        return queryString;
-    }
-
-    public void setQueryString(String queryString) {
-        this.queryString = queryString;
-    }
-
-
     public ProductNote(){}
     public ProductNote(Row row){
         this.row=row;
-        this.price=row.getCell(configFile.getPriceCol()).getNumericCellValue();
-    }
-
-    public ProductNote(double price,String queryString){
-        this.price=price;
-        this.queryString=queryString;
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null){
             ProductNote that = (ProductNote) obj;
-            if (!queryString.equals(that.queryString)) return false;
             if (Double.compare(that.price, price) != 0) return false;
             return price==that.getPrice();
 
@@ -97,7 +65,33 @@ public class ProductNote{
 
       @Override
     public String toString(){
-        return configFile!=null?configFile.getName():"noCnfg"+":"+queryString+"--"+price;
+          StringBuilder builder=new StringBuilder();
+          Iterator<Cell> cellIterator = row.iterator();
+          while (cellIterator.hasNext()) {
+              Cell cell = cellIterator.next();
+              switch (cell.getCellType()) {
+                  case Cell.CELL_TYPE_STRING:
+                     builder.append(cell.getRichStringCellValue().getString());
+                      break;
+                  case Cell.CELL_TYPE_NUMERIC:
+                      if (DateUtil.isCellDateFormatted(cell)) {
+                          builder.append(cell.getDateCellValue());
+                      } else
+                          builder.append(cell.getNumericCellValue());
+                      break;
+                  case Cell.CELL_TYPE_BOOLEAN:
+                      builder.append(cell.getBooleanCellValue());
+                      break;
+                  case Cell.CELL_TYPE_FORMULA:
+                      if(cell.getCachedFormulaResultType() == Cell.CELL_TYPE_NUMERIC){
+                          builder.append(cell.getNumericCellValue());
+                      } else if(cell.getCachedFormulaResultType() == Cell.CELL_TYPE_STRING)
+                          builder.append(cell.getStringCellValue());
+                      break;
+              }
+              builder.append(" ");
+          }
+          return builder.toString();
     }
 
 }

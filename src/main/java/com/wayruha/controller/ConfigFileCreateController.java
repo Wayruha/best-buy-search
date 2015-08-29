@@ -1,8 +1,8 @@
 package com.wayruha.controller;
 
+import com.wayruha.exception.ErrorWindow;
 import com.wayruha.model.ConfigFile;
-import com.wayruha.util.ErrorWindow;
-import com.wayruha.util.XmlParser;
+import com.wayruha.util.Parser;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -59,7 +60,7 @@ public class ConfigFileCreateController implements Initializable {
                 appendCol.setText(String.valueOf(configFile.getAppendCol()));
             }
         }
-
+        errorLabel.setTextFill(Color.RED);
     }
 
     public ConfigFileCreateController() {
@@ -86,7 +87,7 @@ public class ConfigFileCreateController implements Initializable {
         ConfigFile newConfigFile=new ConfigFile(name.getText().trim(),filePath.getText().trim(),Integer.valueOf(priceCol.getText()),Integer.valueOf(modelCol.getText()),Integer.valueOf(manufacturerCol.getText()), getAppendCol());
         try
         {
-            XmlParser.writeAnXml(newConfigFile,editing?configFile.getName():null);
+            Parser.writeAnXml(newConfigFile, editing ? configFile.getName() : null);
             patternBoxController.reload();
         } catch (Exception e){
             e.printStackTrace();

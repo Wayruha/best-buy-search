@@ -7,20 +7,17 @@ import com.wayruha.model.ProductsGroup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class Finder {
   //  String queryString;
-    ArrayList<ConfigFile> patternList=new ArrayList<>();
-    ObservableList<ProductsGroup> productFetch= FXCollections.observableArrayList();
-    Random rand=new Random();
 
-    public ObservableList<ProductsGroup> fetchFromExcel(String queryString){
+
+    public static ObservableList<ProductsGroup> fetchFromExcel(String queryString){
         Reader reader=new Reader(queryString);
         ObservableList<ProductsGroup> row = FXCollections.observableArrayList();
-        for (ConfigFile configFile:XmlParser.loadAllPatterns()) {
-            row.add(reader.findInDoc(configFile));
+        ProductsGroup group;
+        for (ConfigFile configFile: Parser.getConfigList()) {
+             group=reader.findInDoc(configFile);
+             row.add(group);
         }
         return row;
     }

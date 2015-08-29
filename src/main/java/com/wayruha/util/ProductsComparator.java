@@ -11,6 +11,8 @@ public final class ProductsComparator implements Comparator{
 
     @Override
     public int compare(Object o1, Object o2) {
+        if(o1==null) return -1;
+        if (o2==null) return 1;
         ProductNote note1 = (ProductNote) o1;
         ProductNote note2 = (ProductNote) o2;
         if (note1.getPrice() < note2.getPrice()) return -1;
