@@ -2,7 +2,7 @@ package com.wayruha.util;
 
 
 import com.wayruha.exception.CantLoadPattern;
-import com.wayruha.exception.ErrorWindow;
+import com.wayruha.customWindow.ErrorWindow;
 import com.wayruha.model.ConfigFile;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -51,6 +51,7 @@ public final class Parser {
 
     public static void loadAllPatterns() {
         configList.clear();
+        notLoadedconfigList.clear();
         ArrayList<String> patternArr = new ArrayList<>();
         try {
             Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
@@ -93,12 +94,12 @@ public final class Parser {
         if (!doc.hasChildNodes()) {
             root = doc.createElement("patterns");
             doc.appendChild(root);
-        }//Ставимо рутНод ящко документ пустий
-        else root = doc.getDocumentElement();
+        } else root = doc.getDocumentElement();
 
         Element nameElement = doc.createElement(configFile.getName().replaceAll(" ", "_"));
 
         nameElement.setAttribute("appendCol", String.valueOf(configFile.getAppendCol()));
+        nameElement.setAttribute("discount", String.valueOf(configFile.getDiscount()));
         nameElement.setAttribute("manufacturerCol", String.valueOf(configFile.getManufacturerCol()));
         nameElement.setAttribute("modelCol", String.valueOf(configFile.getModelCol()));
         nameElement.setAttribute("priceCol", String.valueOf(configFile.getPriceCol()));
@@ -108,6 +109,19 @@ public final class Parser {
             Node searchedElement = root.getElementsByTagName(oldName).item(0);
             if (searchedElement != null) root.replaceChild(nameElement, searchedElement);
         } else root.appendChild(nameElement);
+        writeContentIntoXML(doc, "src/main/resources/xml/patterns.xml");
+        loadAllPatterns();
+    }
+
+    public static void deletePattern(ConfigFile configFile) throws Exception {
+        Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+        Element root;
+        if (doc.hasChildNodes()) {
+            root = doc.getDocumentElement();
+        } else return;
+
+        Node searchedElement = root.getElementsByTagName(configFile.getName()).item(0);
+        root.removeChild(searchedElement);
         writeContentIntoXML(doc, "src/main/resources/xml/patterns.xml");
         loadAllPatterns();
     }
@@ -146,8 +160,10 @@ public final class Parser {
         int priceCol = Integer.valueOf(pattern.getAttributes().getNamedItem("priceCol").getNodeValue());
         int modelCol = Integer.valueOf(pattern.getAttributes().getNamedItem("modelCol").getNodeValue());
         int manufacturerCol = Integer.valueOf(pattern.getAttributes().getNamedItem("manufacturerCol").getNodeValue());
+        double discount = Double.valueOf(pattern.getAttributes().getNamedItem("discount").getNodeValue());
         int appendCol = Integer.valueOf(pattern.getAttributes().getNamedItem("appendCol").getNodeValue());
-        return new ConfigFile(name, filePath, priceCol, modelCol, manufacturerCol, appendCol);
+
+        return new ConfigFile(name, filePath, priceCol, modelCol, manufacturerCol, appendCol, discount);
     }
 
 

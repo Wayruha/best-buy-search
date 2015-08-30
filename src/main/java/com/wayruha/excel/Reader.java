@@ -43,6 +43,7 @@ public class Reader {
             } else if (configFile.getFilePath().toLowerCase().endsWith("xls")) {
                 workbook = new HSSFWorkbook(fis);
             }
+
             int numberOfSheets = workbook.getNumberOfSheets();
             for (int i = 0; i < numberOfSheets; i++) {
                 Sheet sheet = workbook.getSheetAt(i);
@@ -105,6 +106,8 @@ public class Reader {
     private String processString(String string,boolean isModel) {
         string = string.toLowerCase();
         string = string.trim();
+        string=string.replaceAll("\'"," ");
+        string=string.replaceAll("\""," ");
         if(isModel)string = string.replaceAll(" ", "");
         string = string.replaceAll("-", "");
         string = string.replaceAll("_", "");
@@ -132,6 +135,7 @@ public class Reader {
                         price=convertTextPriceToDouble(cell.getStringCellValue());
                     break;
             }
+            if(configFile.getDiscount()>0) price-=price*configFile.getDiscount()/100;
             price=Double.valueOf(String.format("%.1f", price).replace(",", "."));
             if (price == 0) throw new Exception();
             ProductNote note = new ProductNote(row);

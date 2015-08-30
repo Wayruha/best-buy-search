@@ -1,4 +1,4 @@
-package com.wayruha.exception;
+package com.wayruha.customWindow;
 
 import com.wayruha.util.Logger;
 import javafx.fxml.FXML;
@@ -18,10 +18,11 @@ public class ErrorWindow implements Initializable {
     @FXML
     Label errorLabel;
     Exception exception;
-    String customMessage=null;
+    String customMessage;
 
     public ErrorWindow(Exception givenException) {
         this.exception=givenException;
+        this.customMessage=null;
         throwWindow();
     }
 
@@ -49,12 +50,16 @@ public class ErrorWindow implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        Logger.write("Сталася помилка:" + customMessage!=null?customMessage:exception.getMessage()+ ". ");
+
+        StringBuilder sb=new StringBuilder("Сталася помилка: ");
+        sb.append(customMessage!=null?customMessage:exception.getMessage());
+        sb.append(". ");
+        Logger.write(sb);
         exception.printStackTrace();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        errorLabel.setText(exception.getMessage());
+        errorLabel.setText(customMessage!=null?customMessage:exception.getMessage());
     }
 }

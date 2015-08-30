@@ -11,22 +11,22 @@
   <children>
     <GridPane layoutX="34.0" layoutY="65.0" prefHeight="229.0" prefWidth="355.0">
       <children>
-        <Label text="Назва шаблону" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" />
+        <Label prefWidth="88.0" text="Назва шаблону" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" />
         <Label text="Шлях до файлу" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
         <Label text="Колонка для ціни" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
         <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Колонка моделі" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-        <Label text="Колонка виробника" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-        <Label fx:id="appendLabel" disable="true" text="Колонка для запису" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label prefWidth="109.0" text="Колонка бренду" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+        <Label fx:id="appendLabel" disable="true" text="Колонка для запису" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
         <TextField fx:id="name" prefWidth="222.0" promptText="Наприклад &quot;СКС&quot;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
         <TextField fx:id="priceCol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="modelCol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <TextField fx:id="manufacturerCol" prefWidth="200.0" promptText="&quot;0&quot; - якщо такої колонки немає" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <TextField fx:id="appendCol" disable="true" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+        <TextField fx:id="appendCol" disable="true" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
           <GridPane.margin>
             <Insets />
           </GridPane.margin>
         </TextField>
-        <CheckBox fx:id="checkAppend" mnemonicParsing="false"  text="Робити помітки про закупівлю у Excel-файл" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+        <CheckBox fx:id="checkAppend" mnemonicParsing="false" text="Робити помітки про закупівлю у Excel-файл" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
           <GridPane.margin>
             <Insets left="20.0" />
           </GridPane.margin>
@@ -41,6 +41,8 @@
             </Button>
           </children>
         </HBox>
+        <Label prefWidth="44.999908447265625" text="Знижка" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <TextField fx:id="discountField" prefWidth="200.0" promptText="У відсотках" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       </children>
       <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="133.0" />
@@ -54,10 +56,12 @@
         <RowConstraints maxHeight="28.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="28.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="28.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="28.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
     <Label layoutX="116.0" layoutY="13.0" prefHeight="28.0" prefWidth="190.0" text="Створення нового шаблону" />
     <Button fx:id="saveButt" layoutX="296.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleSaveButt" prefHeight="28.0" prefWidth="73.0" text="Зберегти" />
-    <Label fx:id="errorLabel" layoutX="34.0" layoutY="320.0" visible="false" text="Error label" />
+    <Label fx:id="errorLabel" layoutX="34.0" layoutY="308.0" text="Error label" visible="false" />
+    <Hyperlink fx:id="deleteLabel" layoutX="124.0" layoutY="333.0" onAction="#handleDeleteButt" prefHeight="27.0" prefWidth="158.0" style="-fx-font-size:14px;" text="Видалити шаблон" />
   </children>
 </AnchorPane>

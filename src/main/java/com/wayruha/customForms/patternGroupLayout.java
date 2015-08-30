@@ -12,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,8 +35,12 @@ public class PatternGroupLayout {
         hBox.setId(isLoaded?"patternHBox":"notLoadedPatternHBox");
 
         Label label=new Label(patternName);
+       // label.setPrefWidth(500);
+        label.setMinWidth(200);
         label.setContentDisplay(ContentDisplay.CENTER);
         label.setId("patternLabel");
+        Pane pane=new Pane();
+
         ImageView img=new ImageView("/images/editPattern.png");
         img.setFitHeight(imgHeight);
         img.setFitWidth(imgWidth);
@@ -44,15 +50,16 @@ public class PatternGroupLayout {
         img.setOnMouseClicked(this::loadFileSettings);
         Insets insets=new Insets(10,0,0,0);
         hBox.setPadding(insets);
-        hBox.getChildren().add(label);
-        hBox.getChildren().add(img);
+        hBox.getChildren().addAll(label,pane,img);
+        hBox.setHgrow(label, Priority.ALWAYS);
+        hBox.setHgrow(pane, Priority.ALWAYS);
         return hBox;
     }
 
     public void loadFileSettings(MouseEvent event){
         String fxmlFile = "/fxml/configFileCreate.fxml";
         Stage stage = new Stage();
-        ConfigFileCreateController fileCreateController=new ConfigFileCreateController(Parser.readSettingsFromName(patternName));
+        ConfigFileCreateController fileCreateController=new ConfigFileCreateController(Parser.readSettingsFromName(patternName.replaceAll(" ","_")));
         fileCreateController.setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setController(fileCreateController);

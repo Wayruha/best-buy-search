@@ -9,7 +9,7 @@
     -fx-background-color: #a9d0cf;
     -fx-min-height: 50px;
     -fx-border-color: #e2e2e2;
-    -fx-border-width: 0 0 1 0;
+    -fx-border-width: 0 2 1 0;
 }
 
 #notLoadedPatternHBox{
