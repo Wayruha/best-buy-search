@@ -3,6 +3,8 @@ package com.wayruha.model;
 public class ConfigFile {
     String name, filePath;
     int priceCol,modelCol,manufacturerCol,appendCol;
+    double discount;
+
 
     public String getName() {
         return name;
@@ -12,13 +14,14 @@ public class ConfigFile {
         this.name = name;
     }
 
-    public ConfigFile(String name, String filePath, int priceCol, int modelCol, int manufacturerCol, int appendCol) {
+    public ConfigFile(String name, String filePath, int priceCol, int modelCol, int manufacturerCol, int appendCol, double discount) {
         this.name = name;
         this.filePath = filePath;
         this.priceCol = priceCol;
         this.modelCol = modelCol;
         this.manufacturerCol = manufacturerCol;
         this.appendCol = appendCol;
+        this.discount=discount;
     }
 
     public ConfigFile(String name) {
@@ -65,4 +68,11 @@ public class ConfigFile {
         this.appendCol = appendCol;
     }
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
 }
