@@ -1,8 +1,8 @@
 package com.wayruha.util;
 
 
-import com.wayruha.exception.CantLoadPattern;
 import com.wayruha.customWindow.ErrorWindow;
+import com.wayruha.exception.CantLoadPattern;
 import com.wayruha.model.ConfigFile;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,6 +20,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public final class Parser {
@@ -167,12 +168,7 @@ public final class Parser {
     }
 
 
-    public static void writeSynonims(){
-        ManufacturersSynonimRow row1 = new ManufacturersSynonimRow("greta", "грета");
-        ManufacturersSynonimRow row2 = new ManufacturersSynonimRow("dnepr", "днепр");
-        ArrayList<ManufacturersSynonimRow> list = new ArrayList<>();
-        list.add(row1);
-        list.add(row2);
+    public static void writeSynonims(List<ManufacturersSynonimRow> list){
         StringBuilder outSb = new StringBuilder("{");
         for (ManufacturersSynonimRow row : list) {
             outSb.append("[");
@@ -182,12 +178,14 @@ public final class Parser {
             outSb.append(";");
         }
         outSb.append("}");
+        File file=new File("src/main/resources/json/synonims.txt");
+        try(FileWriter fw=new FileWriter(file)){
+            fw.write(outSb.toString());
+        }   catch (IOException e) {e.printStackTrace();new ErrorWindow(e);}
     }
 
     public static ArrayList<ManufacturersSynonimRow> getSynonimListFromJSON() {
-
         File f = new File("src/main/resources/json/synonims.txt");
-
         if (!f.exists()) try {
             f.createNewFile();
         } catch (IOException e) {

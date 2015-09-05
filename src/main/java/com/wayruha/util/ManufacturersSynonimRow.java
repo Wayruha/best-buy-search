@@ -11,6 +11,8 @@ public class ManufacturersSynonimRow {
             wordList.add(synonimWord);
     }
 
+
+
     public ArrayList<String> getSynonimsForWord(String word){
         if(wordList.contains(word)){
             ArrayList<String> synonimRow= (ArrayList<String>) wordList.clone();
@@ -25,5 +27,17 @@ public class ManufacturersSynonimRow {
 
     public void setWordList(ArrayList<String> wordList) {
         this.wordList = wordList;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        for (String string:wordList){
+            sb.append(string);
+            sb.append(", ");
+        }
+        sb.delete(sb.length()-2,sb.length()-1);
+        return sb.toString();
+
     }
 }
