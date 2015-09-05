@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="426.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <Label layoutX="121.0" layoutY="14.0" prefHeight="37.0" prefWidth="185.0" text="Словник синонімів">
+      <font>
+        <Font name="Arial Rounded MT Bold" size="16.0" />
+      </font>
+    </Label>
+    <ListView fx:id="synonimList" editable="true" layoutX="14.0" layoutY="59.0" prefHeight="152.0" prefWidth="398.0" />
+    <Button fx:id="saveButt" layoutX="339.0" layoutY="236.0" mnemonicParsing="false" onAction="#handleSaveButt" text="Зберегти" />
+    <Button fx:id="addButt" layoutX="26.0" layoutY="236.0" mnemonicParsing="false" onAction="#handleAddButt" text="Додати рядок" />
+  </children>
+</AnchorPane>

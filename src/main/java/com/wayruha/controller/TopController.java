@@ -1,5 +1,6 @@
 package com.wayruha.controller;
 
+import com.wayruha.customWindow.SynonimsWindow;
 import com.wayruha.model.ProductsGroup;
 import com.wayruha.util.Finder;
 import javafx.collections.ObservableList;
@@ -50,6 +51,26 @@ public class TopController implements Initializable{
         fileCreateController.setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setController(fileCreateController);
+        AnchorPane root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene=new Scene(root);
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("styles/MyStyle.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void openDictionary(){
+        String fxmlFile = "/fxml/synonimWindow.fxml";
+        Stage stage = new Stage();
+        SynonimsWindow synonimWindowController=new SynonimsWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        loader.setController(synonimWindowController);
         AnchorPane root = null;
         try {
             root = loader.load();
