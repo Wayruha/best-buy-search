@@ -22,15 +22,10 @@
         <TextArea fx:id="logArea" editable="false" prefHeight="30.0" prefWidth="782.0" wrapText="true" />
         <HBox prefHeight="56.0" prefWidth="858.0">
           <children>
-            <Button fx:id="prevButt" mnemonicParsing="false" onAction="#handlePrevButt" text="Prev Butt" />
-            <Button fx:id="nextButt" mnemonicParsing="false" onAction="#handleNextButt" text="Next Butt">
+            <Button fx:id="prevButt" mnemonicParsing="false" onAction="#handlePrevButt" text="Попередній варіант" />
+            <Button fx:id="nextButt" mnemonicParsing="false" onAction="#handleNextButt" text="Наступний варіант">
               <HBox.margin>
                 <Insets left="30.0" />
-              </HBox.margin>
-            </Button>
-            <Button fx:id="addButt" mnemonicParsing="false" onAction="#handleAddButt" text="Add Button">
-              <HBox.margin>
-                <Insets left="500.0" right="10.0" />
               </HBox.margin>
             </Button>
           </children>

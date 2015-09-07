@@ -23,10 +23,13 @@
         </MenuBar>
         <HBox prefHeight="55.0" prefWidth="1048.0">
           <children>
-            <ImageView fx:id="addImg" fitHeight="46.0" fitWidth="61.33333333333333" onMouseClicked="#handleAddPattern" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="addImg" fitHeight="40.0" fitWidth="44.0" onMouseClicked="#handleAddPattern" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@images/addPattern.png" preserveRatio="false" smooth="false" />
+                <Image url="images/addPattern.png" preserveRatio="false" smooth="false" />
               </image>
+              <HBox.margin>
+                <Insets left="5.0" />
+              </HBox.margin>
             </ImageView>
             <Label prefWidth="76.0" text="Виробник">
               <HBox.margin>
@@ -35,7 +38,7 @@
             </Label>
             <TextField fx:id="manufacturerField" prefWidth="162.0">
               <HBox.margin>
-                <Insets left="10.0" top="15.0" />
+                <Insets left="10.0" top="10.0" />
               </HBox.margin>
             </TextField>
             <Label text="Модель">
@@ -45,7 +48,7 @@
             </Label>
             <TextField id="searchField" fx:id="modelField" prefHeight="24.0" prefWidth="255.0">
               <HBox.margin>
-                <Insets left="20.0" top="15.0" />
+                <Insets left="20.0" top="10.0" />
               </HBox.margin>
             </TextField>
             <Button fx:id="searchButt" mnemonicParsing="false" onAction="#handleSearchButt" prefHeight="24.0" prefWidth="76.0" text="Пошук" textOverrun="CLIP">

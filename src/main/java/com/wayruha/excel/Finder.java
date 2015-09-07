@@ -1,9 +1,9 @@
-package com.wayruha.util;
+package com.wayruha.excel;
 
 
-import com.wayruha.excel.Reader;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.model.ProductsGroup;
+import com.wayruha.util.Parser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
