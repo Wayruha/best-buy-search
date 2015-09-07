@@ -2,7 +2,7 @@ package com.wayruha.controller;
 
 import com.wayruha.customWindow.SynonimsWindow;
 import com.wayruha.model.ProductsGroup;
-import com.wayruha.util.Finder;
+import com.wayruha.excel.Finder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +39,7 @@ public class TopController implements Initializable{
     public void handleSearchButt(){
         String queryString=manufacturerField.getText()+":"+modelField.getText();
         out.println("search something:"+queryString);
+
         ObservableList<ProductsGroup> foundResult=Finder.fetchFromExcel(manufacturerField.getText() + ":" + modelField.getText());
         mainController.addRowInTable(foundResult,queryString);
         modelField.setText("");

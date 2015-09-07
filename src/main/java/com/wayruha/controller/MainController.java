@@ -197,13 +197,15 @@ public class MainController implements Initializable {
 
             }
         });
-
+        queryCol.setPrefWidth(100);
         table.getColumns().add(queryCol);
         for (int i = 0; i < filesList.size(); i++)
         {
             final int j = i;
             String name = filesList.get(i).getName();
             TableColumn col = new TableColumn(name);
+            col.setPrefWidth(name.length()*8);
+            col.setMinWidth(60);
             col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, SimpleStringProperty>() {
                 public SimpleStringProperty call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
                     SimpleStringProperty result=new SimpleStringProperty();
@@ -248,6 +250,7 @@ public class MainController implements Initializable {
             table.getColumns().add(col);
         }
         TableColumn differenceCol=new TableColumn("Різниця в сумі");
+        differenceCol.setPrefWidth(100);
         differenceCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, ObservableValue<Integer>>() {
             public ObservableValue<Integer> call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
                 return new ReadOnlyObjectWrapper(param.getValue());
