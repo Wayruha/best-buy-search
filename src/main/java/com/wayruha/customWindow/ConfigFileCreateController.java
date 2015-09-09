@@ -1,6 +1,6 @@
-package com.wayruha.controller;
+package com.wayruha.customWindow;
 
-import com.wayruha.customWindow.ErrorWindow;
+import com.wayruha.controller.PatternBoxController;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.util.Parser;
 import javafx.beans.binding.BooleanBinding;

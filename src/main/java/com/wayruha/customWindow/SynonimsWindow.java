@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class SynonimsWindow implements Initializable {
     @FXML
     Button addButt, saveButt;
     ObservableList<String> dataList = FXCollections.observableArrayList();
+    Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,6 +67,12 @@ public class SynonimsWindow implements Initializable {
             }
         }
         Parser.writeSynonims(list);
+        stage.close();
+
     }
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
 
 }
