@@ -6,7 +6,7 @@
 
     <groupId>com.wayruha</groupId>
     <artifactId>BBSearch</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -23,7 +23,88 @@
     </dependencies>
 
     <build>
+        <resources>
+            <!-- regular resource processsing for everything except logback.xml -->
+          <!--  <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>xml/patterns.xml</exclude>
+                    <exclude>json/synonims.txt</exclude>
+                </excludes>
+            </resource>-->
+            <!-- resource processsing with a different output directory
+                 for logback.xml -->
+            <resource>
+
+                <directory>extResources</directory>
+                <includes>
+                    <include>xml/patterns.xml</include>
+                    <include>json/synonims.txt</include>
+                </includes>
+                <!-- relative to target/classes
+                     i.e. ${project.build.outputDirectory} -->
+                <targetPath>../extResources</targetPath>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.wayruha.MainApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>com.zenjava</groupId>

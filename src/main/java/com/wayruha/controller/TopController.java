@@ -1,5 +1,6 @@
 package com.wayruha.controller;
 
+import com.wayruha.customWindow.ConfigFileCreateController;
 import com.wayruha.customWindow.SynonimsWindow;
 import com.wayruha.model.ProductsGroup;
 import com.wayruha.excel.Finder;
@@ -69,7 +70,7 @@ public class TopController implements Initializable{
         String fxmlFile = "/fxml/synonimWindow.fxml";
         Stage stage = new Stage();
         SynonimsWindow synonimWindowController=new SynonimsWindow();
-
+        synonimWindowController.setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setController(synonimWindowController);
         AnchorPane root = null;

@@ -30,16 +30,18 @@ public final class Parser {
     public static ArrayList<ConfigFile> getNotLoadedconfigList() {
         return notLoadedconfigList;
     }
-
     public static ArrayList<ConfigFile> getConfigList() {
         return configList;
     }
+
+    final static String patternPath="extResources/xml/patterns.xml",
+                        synonimPath="extResources/json/synonims.txt";
 
     public static ConfigFile readSettingsFromName(String patternName) {
         Document doc = null;
         ConfigFile configFile = null;
         try {
-            doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+            doc = readXMLInDOM(patternPath);
             Element root = doc.getDocumentElement();
             Node patternElement = root.getElementsByTagName(patternName).item(0);
             configFile = nodeToConfigObject(patternElement);
@@ -55,7 +57,7 @@ public final class Parser {
         notLoadedconfigList.clear();
         ArrayList<String> patternArr = new ArrayList<>();
         try {
-            Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+            Document doc = readXMLInDOM(patternPath);
             Element root = doc.getDocumentElement();
 
             Node pattern;
@@ -90,7 +92,7 @@ public final class Parser {
     }
 
     public static void writeAnXml(ConfigFile configFile, String oldName) throws Exception {
-        Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+        Document doc = readXMLInDOM(patternPath);
         Element root;
         if (!doc.hasChildNodes()) {
             root = doc.createElement("patterns");
@@ -110,12 +112,12 @@ public final class Parser {
             Node searchedElement = root.getElementsByTagName(oldName).item(0);
             if (searchedElement != null) root.replaceChild(nameElement, searchedElement);
         } else root.appendChild(nameElement);
-        writeContentIntoXML(doc, "src/main/resources/xml/patterns.xml");
+        writeContentIntoXML(doc,patternPath);
         loadAllPatterns();
     }
 
     public static void deletePattern(ConfigFile configFile) throws Exception {
-        Document doc = readXMLInDOM("src/main/resources/xml/patterns.xml");
+        Document doc = readXMLInDOM(patternPath);
         Element root;
         if (doc.hasChildNodes()) {
             root = doc.getDocumentElement();
@@ -123,7 +125,7 @@ public final class Parser {
 
         Node searchedElement = root.getElementsByTagName(configFile.getName()).item(0);
         root.removeChild(searchedElement);
-        writeContentIntoXML(doc, "src/main/resources/xml/patterns.xml");
+        writeContentIntoXML(doc,patternPath);
         loadAllPatterns();
     }
 
@@ -178,14 +180,14 @@ public final class Parser {
             outSb.append(";");
         }
         outSb.append("}");
-        File file=new File("src/main/resources/json/synonims.txt");
+        File file=new File(synonimPath);
         try(FileWriter fw=new FileWriter(file)){
             fw.write(outSb.toString());
         }   catch (IOException e) {e.printStackTrace();new ErrorWindow(e);}
     }
 
     public static ArrayList<ManufacturersSynonimRow> getSynonimListFromJSON() {
-        File f = new File("src/main/resources/json/synonims.txt");
+        File f = new File(synonimPath);
         if (!f.exists()) try {
             f.createNewFile();
         } catch (IOException e) {

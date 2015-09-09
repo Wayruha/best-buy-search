@@ -1,6 +1,6 @@
 package com.wayruha.customForms;
 
-import com.wayruha.controller.ConfigFileCreateController;
+import com.wayruha.customWindow.ConfigFileCreateController;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.util.Parser;
 import javafx.fxml.FXMLLoader;
