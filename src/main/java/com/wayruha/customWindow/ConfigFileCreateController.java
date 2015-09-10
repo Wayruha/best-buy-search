@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.net.URL;
@@ -101,15 +104,25 @@ public class ConfigFileCreateController implements Initializable {
 
     @FXML
     public void handleDeleteButt(){
-        try {
-            Parser.deletePattern(configFile);
-            patternBoxController.reload();
-        } catch (Exception e) {
-            e.printStackTrace();
-           new ErrorWindow(e,"Помилка при видаленні документа");
+        Action response = Dialogs.create()
+                .owner(stage)
+                .title("Confirm Dialog with Custom Actions")
+                .masthead("Look, a Confirm Dialog with Custom Actions")
+                .message("Are you ok with this?")
+                .actions(Dialog.ACTION_OK, Dialog.ACTION_CANCEL)
+                .showConfirm();
+
+        if (response == Dialog.ACTION_OK) {
+            try {
+                Parser.deletePattern(configFile);
+                patternBoxController.reload();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new ErrorWindow(e,"Помилка при видаленні документа");
+            }
+            stage.close();
         }
 
-        stage.close();
 
     }
 
