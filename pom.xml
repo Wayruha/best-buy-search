@@ -20,18 +20,17 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.11</version>
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>8.40.9</version>
+        </dependency>
     </dependencies>
 
     <build>
         <resources>
             <!-- regular resource processsing for everything except logback.xml -->
-          <!--  <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>xml/patterns.xml</exclude>
-                    <exclude>json/synonims.txt</exclude>
-                </excludes>
-            </resource>-->
+
             <!-- resource processsing with a different output directory
                  for logback.xml -->
             <resource>
@@ -82,19 +81,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>sources</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
