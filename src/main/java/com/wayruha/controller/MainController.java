@@ -146,11 +146,17 @@ public class MainController implements Initializable {
 
     public void refreshTableView() {
 
-        TablePosition selectedPos=table.getSelectionModel().getSelectedCells().get(0);
+        TablePosition selectedPos=null;
+        try {
+            selectedPos = table.getSelectionModel().getSelectedCells().get(0);
+        }catch (IndexOutOfBoundsException e){e.printStackTrace();}
         ObservableList newList=FXCollections.observableArrayList(dataList);
         dataList.removeAll(dataList);
         dataList.addAll(newList);
-        table.getSelectionModel().select(selectedPos.getRow(),selectedPos.getTableColumn());
+        if(selectedPos!=null)
+            table.getSelectionModel().select(selectedPos.getRow(),selectedPos.getTableColumn());
+
+
 
     }
 
@@ -209,8 +215,10 @@ public class MainController implements Initializable {
             col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, ProductNote>, SimpleStringProperty>() {
                 public SimpleStringProperty call(TableColumn.CellDataFeatures<ObservableList, ProductNote> param) {
                     SimpleStringProperty result=new SimpleStringProperty();
-                    if(param.getValue().get(j)!=null)
-                        result.set(String.valueOf(((ProductsGroup) param.getValue().get(j)).getSelectedNote().getPrice()));
+                    try {
+                        if (param.getValue().get(j) != null)
+                            result.set(String.valueOf(((ProductsGroup) param.getValue().get(j)).getSelectedNote().getPrice()));
+                    }catch(IndexOutOfBoundsException e){e.printStackTrace(); result.set("0.0");}
                     return result;
                 }
             });
@@ -227,17 +235,21 @@ public class MainController implements Initializable {
                                     if (Double.valueOf(getItem().toString()).equals(lowestInRow(getIndex(), priceLvlList.get(getIndex()).get()).getPrice()))
                                         setTextFill(Color.RED);
                                     else setTextFill(Color.BLACK);
-                                    if (Double.valueOf(getItem().toString()).equals(lowestInRow(getIndex(), 0).getPrice())) setUnderline(true);
+                                    if (Double.valueOf(getItem().toString()).equals(lowestInRow(getIndex(), 0).getPrice()))
+                                        setUnderline(true);
                                     else setUnderline(false);
                                     setText(item.toString());
-                                } catch (Exception e){ out.println("Помилка при оновленні клітинки таблиці");out.println(e);}
+                                } catch (Exception e) {
+                                    out.println("Помилка при оновленні клітинки таблиці");
+                                    out.println(e);
+                                }
                             }
                         }
                     };
 
                     priceLvlList.addListener((ListChangeListener<SimpleIntegerProperty>) c -> {
                         if (cell.getItem() != null && !cell.getItem().equals("--")) {
-                            ProductsGroup group=((ObservableList<ProductsGroup>)cell.getTableRow().getItem()).get(j);
+                            ProductsGroup group = ((ObservableList<ProductsGroup>) cell.getTableRow().getItem()).get(j);
                             if (table.getItems().get(selectedRow).contains(group))   //TODO правильно зробити Equals()
                                 if (group.getSelectedNote().equals(lowestInRow(selectedRow, priceLvlList.get(selectedRow).get())))
                                     cell.setTextFill(Color.RED);
