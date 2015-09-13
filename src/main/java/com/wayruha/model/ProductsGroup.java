@@ -45,7 +45,7 @@ public class ProductsGroup extends ToggleGroup {
     }
 
     public void decreaseSelectedIndex() {
-        this.selectedIndex--;
+        if(this.selectedIndex>0)this.selectedIndex--;
     }
 
     public ProductNote getSelectedNote() {
