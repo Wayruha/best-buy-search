@@ -7,8 +7,10 @@ public class ManufacturersSynonimRow {
     ArrayList<String> wordList=new ArrayList<>();
 
     public ManufacturersSynonimRow(String ... synonims){
-        for (String synonimWord:synonims)
-            wordList.add(synonimWord);
+        for (String synonimWord:synonims) {
+
+            wordList.add(synonimWord.trim());
+        }
     }
 
 

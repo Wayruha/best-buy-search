@@ -83,14 +83,17 @@ public class Reader {
         boolean flag=false;
         for (ManufacturersSynonimRow synonimRow:synonimList){
             if(synonimRow.getSynonimsForWord(manufacturer)!=null)
-                for (String word:synonimRow.getSynonimsForWord(manufacturer))
+                for (String word:synonimRow.getSynonimsForWord(manufacturer)){
                     flag=checkForManufacturer2(row,word);
-            if (flag) return flag;
+                    if (flag) return flag;
+                }
+
         }
          return checkForManufacturer2(row,manufacturer);
     }
 
     private boolean checkForManufacturer2(Row row,String manufacturer){
+
         Cell cell = row.getCell(configFile.getManufacturerCol() > 0 ? configFile.getManufacturerCol() - 1 : configFile.getModelCol() - 1);
         if (cell != null) {
             String text = cell.getStringCellValue();
