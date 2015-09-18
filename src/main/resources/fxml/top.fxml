@@ -24,7 +24,7 @@
           <children>
             <ImageView fx:id="addImg" fitHeight="40.0" fitWidth="44.0" onMouseClicked="#handleAddPattern" pickOnBounds="true" preserveRatio="true">
               <image>
-                <Image url="@images/addPattern.png" preserveRatio="false" smooth="false" />
+                <Image url="images/addPattern.png" preserveRatio="false" smooth="false" />
               </image>
               <HBox.margin>
                 <Insets left="5.0" />
