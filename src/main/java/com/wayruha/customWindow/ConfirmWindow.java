@@ -16,7 +16,7 @@ public class ConfirmWindow implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-    ConfirmWindow(){
+    public ConfirmWindow(){
         Stage stage=new Stage();
         stage.getIcons().add(MainApp.getAppIcon());
          response = Dialogs.create()

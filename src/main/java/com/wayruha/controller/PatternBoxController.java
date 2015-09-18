@@ -2,7 +2,6 @@ package com.wayruha.controller;
 
 
 import com.wayruha.customForms.PatternGroupLayout;
-import com.wayruha.customWindow.ConfigFileCreateController;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.util.Parser;
 import javafx.fxml.FXML;

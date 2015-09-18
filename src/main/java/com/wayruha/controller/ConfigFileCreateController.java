@@ -1,7 +1,8 @@
-package com.wayruha.customWindow;
+package com.wayruha.controller;
 
 import com.wayruha.MainApp;
-import com.wayruha.controller.PatternBoxController;
+import com.wayruha.customWindow.ConfirmWindow;
+import com.wayruha.customWindow.ErrorWindow;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.util.Parser;
 import javafx.beans.binding.BooleanBinding;
@@ -103,8 +104,6 @@ public class ConfigFileCreateController implements Initializable {
     @FXML
     public void handleDeleteButt(){
         ConfirmWindow confirmWindow=new ConfirmWindow();
-
-
         if (confirmWindow.getResponse() == Dialog.ACTION_OK) {
             try {
                 Parser.deletePattern(configFile);

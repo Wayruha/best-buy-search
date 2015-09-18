@@ -1,7 +1,6 @@
 package com.wayruha.controller;
 
 import com.wayruha.MainApp;
-import com.wayruha.customWindow.ConfigFileCreateController;
 import com.wayruha.customWindow.SynonimsWindow;
 import com.wayruha.excel.Finder;
 import com.wayruha.model.ProductsGroup;
