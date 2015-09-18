@@ -1,15 +1,18 @@
 package com.wayruha.controller;
 
+import com.wayruha.MainApp;
 import com.wayruha.customWindow.ConfigFileCreateController;
 import com.wayruha.customWindow.SynonimsWindow;
-import com.wayruha.model.ProductsGroup;
 import com.wayruha.excel.Finder;
+import com.wayruha.model.ProductsGroup;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,6 +33,10 @@ public class TopController implements Initializable{
     TextField manufacturerField,modelField;
     @FXML
     ImageView addImg;
+    @FXML
+    MenuBar menuBar;
+    @FXML
+    Label manufacturerLabel,modelLabel;
     static MainController mainController;
 
      public static void setMainController(MainController MC){
@@ -89,6 +96,14 @@ public class TopController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         manufacturerField.setOnKeyPressed(event->{ if (event.getCode().toString().equalsIgnoreCase("ENTER")) handleSearchButt(); });
         modelField.setOnKeyPressed(event->{ if (event.getCode().toString().equalsIgnoreCase("ENTER")) handleSearchButt(); });
+        Stage stage=MainApp.getStage();
+        menuBar.prefWidthProperty().bind(stage.widthProperty());
+        manufacturerField.prefWidthProperty().bind(stage.widthProperty().multiply(162/1048d));
+        modelField.prefWidthProperty().bind(stage.widthProperty().multiply(255/1048d));
+        searchButt.prefWidthProperty().bind(stage.widthProperty().multiply(76/1048d));
+        manufacturerLabel.prefWidthProperty().bind(stage.widthProperty().multiply(76/1048d));
+        modelLabel.prefWidthProperty().bind(stage.widthProperty().multiply(60/1048d));
+
     }
 
     public TopController(){}

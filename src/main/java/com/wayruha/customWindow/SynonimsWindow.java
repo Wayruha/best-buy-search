@@ -1,6 +1,7 @@
 package com.wayruha.customWindow;
 
 
+import com.wayruha.MainApp;
 import com.wayruha.customForms.CustomSynonimListCell;
 import com.wayruha.util.ManufacturersSynonimRow;
 import com.wayruha.util.Parser;
@@ -28,6 +29,8 @@ public class SynonimsWindow implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        stage.getIcons().add(MainApp.getAppIcon());
+
         for (ManufacturersSynonimRow row : Parser.getSynonimListFromJSON())
             dataList.add(row.toString());
 

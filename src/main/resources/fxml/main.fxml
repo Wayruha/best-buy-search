@@ -9,11 +9,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="771.0" prefWidth="1048.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.MainController">
+<BorderPane prefHeight="771.0" prefWidth="1048" xmlns:fx="http://javafx.com/fxml" fx:controller="com.wayruha.controller.MainController">
   <center>
     <VBox prefHeight="663.0" prefWidth="878.0" spacing="10.0">
       <children>
-        <TableView fx:id="table" minWidth="100.0" onMouseClicked="#handleTableClick" prefHeight="432.0" prefWidth="400.0" VBox.vgrow="ALWAYS" />
+        <TableView fx:id="table" minWidth="100.0" onMouseClicked="#handleTableClick" prefHeight="432.0" prefWidth="400.0" VBox.vgrow="ALWAYS"/>
         <HBox prefHeight="203.0" prefWidth="858.0">
           <children>
             <ListView fx:id="groupView" onMouseClicked="#handleListClick" prefHeight="141.0" prefWidth="750.0" HBox.hgrow="ALWAYS" />
@@ -43,7 +43,7 @@
     <fx:include fx:id="patternBox" source="patternBox.fxml" />
   </left>
   <top>
-    <fx:include fx:id="top" source="top.fxml" />
+      <fx:include fx:id="top" source="top.fxml" />
     <!--top.-->
   </top>
 </BorderPane>

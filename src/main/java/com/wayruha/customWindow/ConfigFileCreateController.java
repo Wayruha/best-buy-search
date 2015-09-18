@@ -1,5 +1,6 @@
 package com.wayruha.customWindow;
 
+import com.wayruha.MainApp;
 import com.wayruha.controller.PatternBoxController;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.util.Parser;
@@ -10,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.net.URL;
@@ -41,6 +40,8 @@ public class ConfigFileCreateController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        stage.getIcons().add(MainApp.getAppIcon());
+
         BooleanBinding appendDisableBinding=new BooleanBinding() {
             {bind(checkAppend.selectedProperty());}
             @Override
@@ -64,11 +65,8 @@ public class ConfigFileCreateController implements Initializable {
             }
         }
 
-
         errorLabel.setTextFill(Color.RED);
         deleteLabel.setTextFill(Color.RED);
-
-
     }
 
     public ConfigFileCreateController() {
@@ -104,15 +102,10 @@ public class ConfigFileCreateController implements Initializable {
 
     @FXML
     public void handleDeleteButt(){
-        Action response = Dialogs.create()
-                .owner(stage)
-                .title("Confirm Dialog with Custom Actions")
-                .masthead("Look, a Confirm Dialog with Custom Actions")
-                .message("Are you ok with this?")
-                .actions(Dialog.ACTION_OK, Dialog.ACTION_CANCEL)
-                .showConfirm();
+        ConfirmWindow confirmWindow=new ConfirmWindow();
 
-        if (response == Dialog.ACTION_OK) {
+
+        if (confirmWindow.getResponse() == Dialog.ACTION_OK) {
             try {
                 Parser.deletePattern(configFile);
                 patternBoxController.reload();
