@@ -4,7 +4,10 @@ import com.wayruha.util.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 
 import java.net.URL;
@@ -17,10 +20,10 @@ public class ErrorWindow implements Initializable {
     Exception exception;
     String customMessage;
 
+
     public ErrorWindow(Exception givenException) {
         this.exception = givenException;
         this.customMessage = null;
-
         throwWindow();
     }
 
@@ -33,14 +36,19 @@ public class ErrorWindow implements Initializable {
     private void throwWindow() {
         if (!inUse) {
             Stage stage = new Stage();
-            Dialogs.create()
+            stage.getIcons().add(new Image(getClass().getClassLoader().getResource("images/glass_blue.png").toExternalForm()));
+
+            Action response= Dialogs.create()
                     .owner(stage)
-                    .title("Сталася помилка")
+                    .title("Сталася помилка") .actions(Dialog.ACTION_OK)
                     .message(customMessage != null ? customMessage : exception.getMessage())
                     .showException(exception);
-
             inUse = true;
+
+            if (response==Dialog.ACTION_CANCEL||response==Dialog.ACTION_OK)
+                inUse=false;
         }
+
         StringBuilder sb = new StringBuilder("Сталася помилка: ");
         sb.append(customMessage != null ? customMessage : exception.getMessage());
         sb.append(". ");

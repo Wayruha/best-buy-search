@@ -1,12 +1,13 @@
 package com.wayruha.controller;
 
+import com.wayruha.MainApp;
 import com.wayruha.customForms.CustomListCell;
 import com.wayruha.model.ConfigFile;
 import com.wayruha.model.ProductNote;
 import com.wayruha.model.ProductsGroup;
 import com.wayruha.util.Logger;
-import com.wayruha.util.ProductsComparator;
 import com.wayruha.util.Parser;
+import com.wayruha.util.ProductsComparator;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -21,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -43,7 +45,7 @@ public class MainController implements Initializable {
     @FXML
     ListView<ProductNote> groupView;
     @FXML
-    Button addButt, prevButt, nextButt;
+    Button  prevButt, nextButt;
     @FXML
     public  TextArea logArea;
 
@@ -58,11 +60,9 @@ public class MainController implements Initializable {
     ObservableList<SimpleIntegerProperty> priceLvlList = FXCollections.observableArrayList();
     ArrayList<ArrayList<ProductNote>>sortedList=new ArrayList<>();
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Stage stage=MainApp.getStage();
         table.setItems(dataList);
         loadColumns();
 
