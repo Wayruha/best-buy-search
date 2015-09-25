@@ -1,0 +1,34 @@
+--- TxtParser.java
++++ TxtParser.java
+@@ -26,9 +26,11 @@
+         }   catch (IOException e) {e.printStackTrace();new ErrorWindow(e,"Не вдалося записати у файл"+file.getName());}
+     }
+ 
+-    public static ArrayList<ManufacturersSynonimRow> getSynonimListFromJSON(URI uri) {
+-        File f = new File(uri);
+-        if (!f.exists()) try {
++    public static ArrayList<ManufacturersSynonimRow> getSynonimListFromJSON(InputStream inputStream) {
++      //  System.out.println("--------------------------------------------------"+uri.normalize());
++     //   File f = new File(uri);
++
++        /*if (!f.exists()) try {
+             f.createNewFile();
+         } catch (IOException e) {
+             e.printStackTrace();
+@@ -32,6 +34,6 @@
+             f.createNewFile();
+         } catch (IOException e) {
+             e.printStackTrace();
+-        }
++        }*/
+         ArrayList<ManufacturersSynonimRow> list = new ArrayList<>();
+         StringBuilder sb = new StringBuilder();
+@@ -36,6 +38,7 @@
+         ArrayList<ManufacturersSynonimRow> list = new ArrayList<>();
+         StringBuilder sb = new StringBuilder();
+-        try (BufferedReader in = new BufferedReader(new FileReader(f.getAbsoluteFile()));) {
++
++        try (BufferedReader in = new BufferedReader(new InputStreamReader(inputStream))) {
+             String s;
+             while ((s = in.readLine()) != null) {
+                 sb.append(s);
