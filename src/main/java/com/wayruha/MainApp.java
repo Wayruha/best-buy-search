@@ -29,7 +29,7 @@ public class MainApp extends Application {
         this.stage=stage;
         String fxmlFile = "/fxml/main.fxml";
         loader = new FXMLLoader(getClass().getResource(fxmlFile));
-        appIcon=new Image(getClass().getClassLoader().getResource("images/excelIcon.png").toExternalForm());      //glass_blue or excelIcon.png
+        appIcon=new Image(getClass().getClassLoader().getResource("images/glass_blue.png").toExternalForm());      //glass_blue or excelIcon.png
         stage.setWidth(1048);
         BorderPane root =  loader.load();
 
